@@ -1,0 +1,56 @@
+<html lang="en">
+    {{!
+        Arguments:
+            posts: {
+                title: string
+                date: string (ISO 8601)
+                slug: string
+            }[] (in reverse chronological order)
+            tags: string[] (in alphabetical order)
+    }}
+    <head>
+        <meta charset="UTF-8" />
+        <title>Blog - Lixquid</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <link rel="icon" href="/assets/favicon.png" />
+        <meta name="title" content="Blog - Lixquid" />
+        <meta name="description" content="Lixquid's Blog" />
+        <link rel="stylesheet" href="/assets/modern-normalize.css" />
+        <link rel="stylesheet" href="/assets/index.css" />
+        <script src="/assets/index.ts" defer type="module"></script>
+    </head>
+    <body>
+        <main>
+            {{> header}}
+            <h1>Lixquid's Blog</h1>
+            <div class="index-columns">
+                <div class="index-column-wide">
+                    <h2>Posts</h2>
+                    <ul>
+                        {{#each posts}}
+                        <li>
+                            <a href="/{{ slug }}/index.html">{{ title }}</a>
+                            <small class="text-subtle" title="{{ date }}"
+                                >(<span class="relative-date">{{ date }}</span
+                                >)</small
+                            >
+                        </li>
+                        {{/each}}
+                    </ul>
+                </div>
+                <div class="index-column-narrow">
+                    <h2>Tags</h2>
+                    <ul>
+                        {{#each tags}}
+                        <li>
+                            <a href="/tags/{{ this }}/index.html"
+                                >#{{ this }}</a
+                            >
+                        </li>
+                        {{/each}}
+                    </ul>
+                </div>
+            </div>
+        </main>
+    </body>
+</html>

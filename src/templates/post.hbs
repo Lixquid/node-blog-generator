@@ -1,0 +1,80 @@
+<html lang="en">
+    {{!
+        Arguments:
+            body: string (HTML)
+            title: string
+            date: string (ISO 8601)
+            edited: string (ISO 8601) | null
+            tags: string[]
+            related: string[]
+            previousPost: {
+                title: string
+                slug: string
+            } | null
+            nextPost: {
+                title: string
+                slug: string
+            } | null
+
+        TODO: Handle related posts
+    }}
+    <head>
+        <meta charset="UTF-8" />
+        <title>{{ title }} - Lixquid</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <link rel="icon" href="/assets/favicon.png" />
+        <meta name="title" content="{{ title }} - Lixquid" />
+        <meta
+            name="description"
+            content="{{ title }} - A post from Lixquid's blog"
+        />
+        <link rel="stylesheet" href="/assets/modern-normalize.css" />
+        <link rel="stylesheet" href="/assets/index.css" />
+        <script src="/assets/index.ts" defer type="module"></script>
+    </head>
+    <body>
+        <main>
+            {{> header}}
+            <header>
+                <h1>{{ title }}</h1>
+                <span class="header-subtitle">
+                    <span class="relative-date">{{ date }}</span>
+                    {{#if edited}}
+                    (Edited
+                    <span class="relative-date">{{ edited }}</span
+                    >)
+                    {{/if}}
+                    &bullet;
+                    {{#each tags}}{{#if @index}},
+                    {{/if}}
+                    <a href="/tags/{{ this }}">#{{ this }}</a
+                    >{{/each}}
+                </span>
+            </header>
+            <article>
+                {{{body}}}
+                {{! TODO: Prev/Next Post }}
+            </article>
+            <footer>
+                {{#if previousPost}}
+                <a href="/{{ previousPost.slug }}/index.html">
+                    <p>
+                        <strong>Previous Post</strong>
+                    </p>
+                    <span>{{ previousPost.title }}</span>
+                </a>
+                {{else}}
+                <div></div>
+                {{/if}}
+                {{#if nextPost}}
+                <a href="/{{ nextPost.slug }}/index.html">
+                    <p>
+                        <strong>Next Post</strong>
+                    </p>
+                    <span>{{ nextPost.title }}</span>
+                </a>
+                {{/if}}
+            </footer>
+        </main>
+    </body>
+</html>

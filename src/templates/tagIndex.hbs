@@ -1,0 +1,30 @@
+<html lang="en">
+    {{!
+        Arguments:
+            tags: string[] (in alphabetical order)
+    }}
+    <head>
+        <meta charset="UTF-8" />
+        <title>Tags - Lixquid</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <link rel="icon" href="/assets/favicon.png" />
+        <meta name="title" content="{{ tag }} - Lixquid" />
+        <meta name="description" content="{{ tag }} - Lixquid's blog" />
+        <link rel="stylesheet" href="/assets/modern-normalize.css" />
+        <link rel="stylesheet" href="/assets/index.css" />
+        <script src="/assets/index.ts" defer type="module"></script>
+    </head>
+    <body>
+        <main>
+            {{> header}}
+            <h1>Tags</h1>
+            <ul>
+                {{#each tags}}
+                <li>
+                    <a href="/tags/{{ this }}/index.html">#{{ this }}</a>
+                </li>
+                {{/each}}
+            </ul>
+        </main>
+    </body>
+</html>

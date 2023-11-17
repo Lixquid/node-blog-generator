@@ -1,0 +1,40 @@
+{
+  "name": "blog-generator",
+  "version": "0.1.0",
+  "author": {
+    "name": "Lixquid",
+    "url": "https://lixquid.com"
+  },
+  "scripts": {
+    "start": "ts-node src/index.ts && vite out-staging",
+    "build": "ts-node src/index.ts && vite build"
+  },
+  "license": "MIT",
+  "private": true,
+  "main": "index.js",
+  "prettier": {
+    "tabWidth": 4,
+    "overrides": [
+      {
+        "files": "**/*.hbs",
+        "options": {
+          "parser": "angular"
+        }
+      }
+    ]
+  },
+  "devDependencies": {
+    "@types/node": "^20.8.10"
+  },
+  "dependencies": {
+    "front-matter": "^4.0.2",
+    "handlebars": "^4.7.8",
+    "highlight.js": "^11.9.0",
+    "marked": "^9.1.5",
+    "marked-highlight": "^2.0.6",
+    "modern-normalize": "^2.0.0",
+    "ts-node": "^10.9.1",
+    "typescript": "^5.2.2",
+    "vite": "^4.5.0"
+  }
+}

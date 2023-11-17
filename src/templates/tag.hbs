@@ -1,0 +1,39 @@
+<html lang="en">
+    {{!
+        Arguments:
+            tag: string
+            posts: {
+                title: string
+                date: string (ISO 8601)
+                slug: string
+            }[] (in reverse chronological order)
+    }}
+    <head>
+        <meta charset="UTF-8" />
+        <title>{{ tag }} - Lixquid</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <link rel="icon" href="/assets/favicon.png" />
+        <meta name="title" content="{{ tag }} - Lixquid" />
+        <meta name="description" content="{{ tag }} - Lixquid's blog" />
+        <link rel="stylesheet" href="/assets/modern-normalize.css" />
+        <link rel="stylesheet" href="/assets/index.css" />
+        <script src="/assets/index.ts" defer type="module"></script>
+    </head>
+    <body>
+        <main>
+            {{> header}}
+            <h1>#{{ tag }}</h1>
+            <ul>
+                {{#each posts}}
+                <li>
+                    <a href="/{{ slug }}/index.html">{{ title }}</a>
+                    <small class="text-subtle" title="{{ date }}"
+                        >(<span class="relative-date">{{ date }}</span
+                        >)</small
+                    >
+                </li>
+                {{/each}}
+            </ul>
+        </main>
+    </body>
+</html>
