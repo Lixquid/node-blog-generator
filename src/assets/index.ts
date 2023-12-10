@@ -9,7 +9,7 @@ document.addEventListener("DOMContentLoaded", () => {
         } else if (days < 2) {
             return "Yesterday";
         } else if (days < 30) {
-            return `${days} days ago`;
+            return `${Math.round(days)} days ago`;
         } else if (days <= 45) {
             return "1 month ago";
         } else if (days < 365) {
