@@ -6,7 +6,7 @@
     "url": "https://lixquid.com"
   },
   "scripts": {
-    "start": "ts-node src/index.ts && vite out-staging",
+    "start": "ts-node src/index.ts && vite out",
     "build": "ts-node src/index.ts && vite build"
   },
   "license": "MIT",
