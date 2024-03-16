@@ -1,3 +1,13 @@
+/** Fonts *********************************************************************/
+
+@font-face {
+    font-family: "Source Code Pro";
+    font-style: normal;
+    font-weight: 500;
+    src: local("Source Code Pro"), local("SourceCodePro-Medium"),
+        url(./SourceCodePro-Medium-subset.ttf) format("truetype");
+}
+
 /** Variables *****************************************************************/
 
 :root {
@@ -66,10 +76,14 @@ code {
     padding: 0.1em 0.2em;
     border-radius: 0.3em;
     color: var(--color-secondary);
+
+    font-family: "Source Code Pro", monospace;
 }
 
 pre {
     margin: 0 0 1em 0;
+
+    line-height: 1.4;
 }
 
 pre code {
