@@ -349,3 +349,32 @@ pre code.hljs {
     border-color: rgb(243, 195, 0);
     background: rgba(243, 195, 0, 0.2);
 }
+
+/** Tools *********************************************************************/
+
+article {
+    & .tool-container {
+        border: 1px solid var(--color-border);
+        padding: 1em;
+        border-radius: 0.3em;
+    }
+
+    & input[type="text"] {
+        background: #222;
+        padding: 0.5em 0.7em;
+        border: 1px solid #333;
+        color: var(--color-fg);
+        border-radius: 0.25em;
+
+        &.invalid {
+            border-color: #c00;
+        }
+    }
+
+    & input[type="checkbox"] {
+        &.large {
+            width: 1.5em;
+            height: 1.5em;
+        }
+    }
+}
