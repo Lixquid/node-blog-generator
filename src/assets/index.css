@@ -96,9 +96,27 @@ pre code {
 }
 
 hr {
+    position: relative;
     background: var(--color-border);
-    height: 0.05em;
+    height: 0.1em;
     border-radius: 0.1em;
+    border: none;
+    overflow: unset;
+
+    margin: 4em 0;
+
+    &:after {
+        position: absolute;
+        content: "";
+        display: block;
+        background: url("./hr_badge.svg") center/contain no-repeat,
+            var(--color-bg);
+        width: 4em;
+        height: 1.5em;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
+    }
 }
 
 blockquote {
