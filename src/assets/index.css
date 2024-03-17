@@ -41,104 +41,116 @@ p {
     margin-top: 0;
 }
 
-h1 {
-    font-size: 2.5em;
-    margin-bottom: 0.3em;
-}
-
-h2 {
-    font-size: 2em;
-    margin-bottom: 0.3em;
-}
-
-h3 {
-    font-size: 1.5em;
-    margin-bottom: 0.3em;
-}
-
-h4 {
-    font-size: 1.3em;
-    margin-bottom: 0.3em;
-}
-
-h5 {
-    font-size: 1.2em;
-    margin-bottom: 0.3em;
-}
-
-h6 {
-    font-size: 1.1em;
-    margin-bottom: 0.3em;
-}
-
-code {
-    background: #222;
-    padding: 0.1em 0.2em;
-    border-radius: 0.3em;
-    color: var(--color-secondary);
-
-    font-family: "Source Code Pro", monospace;
-}
-
-pre {
-    margin: 0 0 1em 0;
-
-    line-height: 1.4;
-}
-
-pre code {
-    display: block;
-    overflow-x: auto;
-    padding: 0.5em;
-
-    background: initial;
-    border: 1px solid var(--color-border);
-}
-
-hr {
-    position: relative;
-    background: var(--color-border);
-    height: 0.1em;
-    border-radius: 0.1em;
-    border: none;
-    overflow: unset;
-
-    margin: 4em 0;
-
-    &:after {
-        position: absolute;
-        content: "";
-        display: block;
-        background: url("./hr_badge.svg") center/contain no-repeat,
-            var(--color-bg);
-        width: 4em;
-        height: 1.5em;
-        left: 50%;
-        top: 50%;
-        transform: translate(-50%, -50%);
+article {
+    & h1 {
+        font-size: 2.5em;
+        margin-bottom: 0.3em;
     }
-}
 
-blockquote {
-    margin: 0 0 1em 0;
-    border-left: 0.3em solid var(--color-border);
-    padding: 0.5em 0 0.5em 0.5em;
+    & h2 {
+        font-size: 2em;
+        margin-bottom: 0.3em;
+    }
 
-    & > *:last-child {
+    & h3 {
+        font-size: 1.5em;
+        margin-bottom: 0.3em;
+    }
+
+    & h4 {
+        font-size: 1.3em;
+        margin-bottom: 0.3em;
+    }
+
+    & h5 {
+        font-size: 1.2em;
+        margin-bottom: 0.3em;
+    }
+
+    & h6 {
+        font-size: 1.1em;
+        margin-bottom: 0.3em;
+    }
+
+    & code {
+        background: #222;
+        padding: 0.1em 0.2em;
+        border-radius: 0.3em;
+        color: var(--color-secondary);
+
+        font-family: "Source Code Pro", monospace;
+    }
+
+    & img:not(.codeblock-icon) {
+        max-width: 100%;
+        height: auto;
+        display: block;
+        margin: 1em auto;
+
+        border: 1px solid var(--color-border);
+        border-radius: 0.3em;
+    }
+
+    & pre {
+        margin: 0 0 1em 0;
+
+        line-height: 1.4;
+    }
+
+    & pre code {
+        display: block;
+        overflow-x: auto;
+        padding: 0.5em;
+
+        background: initial;
+        border: 1px solid var(--color-border);
+    }
+
+    & hr {
+        position: relative;
+        background: var(--color-border);
+        height: 0.1em;
+        border-radius: 0.1em;
+        border: none;
+        overflow: unset;
+
+        margin: 4em 0;
+
+        &:after {
+            position: absolute;
+            content: "";
+            display: block;
+            background: url("./hr_badge.svg") center/contain no-repeat,
+                var(--color-bg);
+            width: 4em;
+            height: 1.5em;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+        }
+    }
+
+    & blockquote {
+        margin: 0 0 1em 0;
+        border-left: 0.3em solid var(--color-border);
+        padding: 0.5em 0 0.5em 0.5em;
+
+        & > *:last-child {
+            margin-bottom: 0;
+        }
+    }
+
+    & li > *:last-child {
         margin-bottom: 0;
     }
-}
 
-li > *:last-child {
-    margin-bottom: 0;
-}
-
-kbd {
-    /* display: inline-block; */
-    border-radius: 0.1em;
-    padding: 0.1em 0.2em;
-    background: rgba(255, 255, 255, 0.05);
-    border: 1px solid var(--color-border);
+    & kbd {
+        /* display: inline-block; */
+        border-radius: 0.1em;
+        padding: 0.1em 0.2em;
+        background: rgba(255, 255, 255, 0.05);
+        border: 1px solid var(--color-border);
+    }
 }
 
 /** Structural Elements *******************************************************/
