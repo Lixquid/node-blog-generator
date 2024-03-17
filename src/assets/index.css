@@ -410,7 +410,8 @@ article {
         }
     }
 
-    & button {
+    & button,
+    & select {
         padding: 0.3em 0.7em;
         border: 1px solid var(--color-border);
         border-radius: 0.3em;
@@ -421,16 +422,19 @@ article {
         box-shadow: 0 -0.1em 0 rgba(0, 0, 0, 0.5) inset;
     }
 
-    & button:hover {
+    & button:hover,
+    & select:hover {
         background: #333;
     }
 
-    & button:active:not(:disabled) {
+    & button:active:not(:disabled),
+    & select:active:not(:disabled) {
         background: var(--color-bg);
         box-shadow: 0 0.1em 0 rgba(0, 0, 0, 0.5) inset;
     }
 
-    & button:disabled {
+    & button:disabled,
+    & select:disabled {
         background: #333;
         color: #666;
     }
