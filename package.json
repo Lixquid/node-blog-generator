@@ -6,7 +6,7 @@
     "url": "https://lixquid.com"
   },
   "scripts": {
-    "start": "ts-node src/index.ts && vite out",
+    "start": "ts-node src/index.ts && vite -c vite.config.ts",
     "build": "ts-node src/index.ts && vite build",
     "watch": "nodemon --watch src --watch blog -e md,html,css,ts --exec \"yarn start\""
   },
