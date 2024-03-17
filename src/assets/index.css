@@ -379,6 +379,7 @@ article {
         border: 1px solid var(--color-border);
         padding: 1em;
         border-radius: 0.3em;
+        margin-bottom: 1em;
 
         overflow-x: scroll;
     }
@@ -390,8 +391,15 @@ article {
         color: var(--color-fg);
         border-radius: 0.25em;
 
+        box-shadow: 0 0.1em 0 rgba(0, 0, 0, 0.5) inset;
+
         &.invalid {
             border-color: #c00;
+        }
+
+        &:disabled {
+            background: #333;
+            color: #666;
         }
     }
 
@@ -400,5 +408,30 @@ article {
             width: 1.5em;
             height: 1.5em;
         }
+    }
+
+    & button {
+        padding: 0.3em 0.7em;
+        border: 1px solid var(--color-border);
+        border-radius: 0.3em;
+        background: var(--color-bg);
+        color: var(--color-fg);
+        cursor: pointer;
+
+        box-shadow: 0 -0.1em 0 rgba(0, 0, 0, 0.5) inset;
+    }
+
+    & button:hover {
+        background: #333;
+    }
+
+    & button:active:not(:disabled) {
+        background: var(--color-bg);
+        box-shadow: 0 0.1em 0 rgba(0, 0, 0, 0.5) inset;
+    }
+
+    & button:disabled {
+        background: #333;
+        color: #666;
     }
 }
