@@ -268,6 +268,16 @@ pre code.hljs {
     color: #ce9178;
 }
 
+.hljs .hljs-deletion {
+    color: #ce9178;
+    background: rgba(206, 145, 120, 0.15);
+}
+
+.hljs .hljs-addition {
+    color: #b5cea8;
+    background: rgba(181, 206, 168, 0.15);
+}
+
 /** Extensions ****************************************************************/
 
 .codeblock {
