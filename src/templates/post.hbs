@@ -37,18 +37,21 @@
             {{> header}}
             <header>
                 <h1>{{ title }}</h1>
-                <span class="header-subtitle">
-                    <span class="relative-date">{{ date }}</span>
-                    {{#if edited}}
-                    (Edited
-                    <span class="relative-date">{{ edited }}</span
-                    >)
-                    {{/if}}
-                    &bullet;
-                    {{#each tags}}{{#if @index}},
-                    {{/if}}
-                    <a href="/tags/{{ this }}">#{{ this }}</a
-                    >{{/each}}
+                <div class="header-subtitle">
+                    <span>
+                        {{#each tags}}
+                        <a href="/tags/{{ this }}">#{{ this }}</a>
+                        {{/each}}
+                    </span>
+
+                    <hr />
+
+                    <div>
+                        <span class="relative-date">{{ date }}</span>
+                        {{#if edited}}
+                        (Edited <span class="relative-date">{{ edited }}</span>)
+                        {{/if}}
+                    </div>
                 </span>
             </header>
             <article>
