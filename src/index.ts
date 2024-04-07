@@ -248,7 +248,7 @@ const marked: Marked = new Marked({
                     text +
                     `</code>` +
                     (type
-                        ? `<img class="codeblock-icon" src="/assets/code_${type}.svg" title="${codeBlockTypeTitles[type]}" />`
+                        ? `<img class="codeblock-icon" src="/assets/icon_${type}.svg" title="${codeBlockTypeTitles[type]}" />`
                         : "") +
                     `</pre></div></div>`
                 );
