@@ -1,5 +1,5 @@
-function isHTMLSpanElement(el: Element): el is HTMLSpanElement {
-    return el.tagName === "SPAN";
+function isHTMLElement(el: Element): el is HTMLElement {
+    return el instanceof HTMLElement;
 }
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -21,11 +21,26 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     for (const e of Array.from(document.querySelectorAll(".relative-date"))) {
-        if (!isHTMLSpanElement(e)) continue;
+        if (!isHTMLElement(e)) continue;
 
         const date = new Date(e.innerText);
         if (isNaN(date.getTime())) continue;
         e.innerText = relativeTime((Date.now() - date.getTime()) / 86_400_000);
         e.title = date.toLocaleDateString();
+    }
+
+    function stringToHue(s: string): number {
+        let hash = 0;
+        for (let i = 0; i < s.length; i++) {
+            hash = s.charCodeAt(i) + (hash << 5);
+        }
+        return Math.abs(hash % 360);
+    }
+
+    for (const e of Array.from(document.querySelectorAll(".coloured-tag"))) {
+        if (!isHTMLElement(e)) continue;
+
+        const hue = stringToHue(e.innerText);
+        e.style.color = `hsl(${hue}, 30%, 74%)`;
     }
 });

@@ -40,7 +40,9 @@
                 <div class="header-subtitle">
                     <span>
                         {{#each tags}}
-                        <a href="/tags/{{ this }}">#{{ this }}</a>
+                        <a href="/tags/{{ this }}" class="coloured-tag"
+                            >#{{ this }}</a
+                        >
                         {{/each}}
                     </span>
 
@@ -49,15 +51,13 @@
                     <div>
                         <span class="relative-date">{{ date }}</span>
                         {{#if edited}}
-                        (Edited <span class="relative-date">{{ edited }}</span>)
+                        (Edited <span class="relative-date">{{ edited }}</span
+                        >)
                         {{/if}}
                     </div>
-                </span>
+                </div>
             </header>
-            <article>
-                {{{body}}}
-                {{! TODO: Prev/Next Post }}
-            </article>
+            <article>{{{body}}}</article>
             <footer>
                 {{#if previousPost}}
                 <a href="/{{ previousPost.slug }}">
