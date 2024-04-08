@@ -22,10 +22,11 @@
     <body>
         <main>
             {{> header}}
-            <h1>Lixquid's Blog</h1>
             <div class="index-columns">
                 <div class="index-column-wide">
-                    <h2>Posts</h2>
+                    <header>
+                        <h2>Posts</h2>
+                    </header>
                     <ul>
                         {{#each posts}}
                         <li>
@@ -39,7 +40,9 @@
                     </ul>
                 </div>
                 <div class="index-column-narrow">
-                    <h2>Tags</h2>
+                    <header>
+                        <h2>Tags</h2>
+                    </header>
                     <ul>
                         {{#each tags}}
                         <li>
