@@ -59,24 +59,23 @@
             </header>
             <article>{{{body}}}</article>
             <footer>
-                {{#if previousPost}}
-                <a href="/{{ previousPost.slug }}">
-                    <p>
+                <hr />
+                <div class="postlinks">
+                    {{#if previousPost}}
+                    <a href="/{{ previousPost.slug }}" class="postlink-button">
                         <strong>Previous Post</strong>
-                    </p>
-                    <span>{{ previousPost.title }}</span>
-                </a>
-                {{else}}
-                <div></div>
-                {{/if}}
-                {{#if nextPost}}
-                <a href="/{{ nextPost.slug }}">
-                    <p>
+                        <span>{{ previousPost.title }}</span>
+                    </a>
+                    {{else}}
+                    <div></div>
+                    {{/if}}
+                    {{#if nextPost}}
+                    <a href="/{{ nextPost.slug }}" class="postlink-button">
                         <strong>Next Post</strong>
-                    </p>
-                    <span>{{ nextPost.title }}</span>
-                </a>
-                {{/if}}
+                        <span>{{ nextPost.title }}</span>
+                    </a>
+                    {{/if}}
+                </div>
             </footer>
         </main>
     </body>

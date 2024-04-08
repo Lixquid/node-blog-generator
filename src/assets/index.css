@@ -177,7 +177,7 @@ article {
         border-collapse: collapse;
 
         & th,
-        td {
+        & td {
             border: 1px solid var(--color-border);
             padding: 0.75em;
         }
@@ -237,7 +237,7 @@ header {
     & .header-subtitle {
         display: flex;
         align-items: center;
-        margin: 1.5em 0 4em 0;
+        margin: 1.5em 0 8rem 0;
         font-size: 0.75em;
 
         @media (max-width: 600px) {
@@ -259,20 +259,63 @@ header {
 }
 
 footer {
-    display: flex;
-    justify-content: space-between;
-    margin-top: 5em;
+    margin-top: 8rem;
 
-    & strong {
-        font-size: 1.2em;
+    & hr {
+        background: var(--color-border);
+        height: 1px;
+        border: none;
+        margin-bottom: 2em;
     }
 
-    & p {
-        margin-bottom: 0.3em;
-    }
+    .postlinks {
+        display: flex;
+        justify-content: space-between;
 
-    & a:nth-child(2) {
-        text-align: right;
+        @media (max-width: 600px) {
+            flex-direction: column;
+
+            & a:nth-child(2) {
+                margin-top: 1em;
+            }
+        }
+
+        & a:nth-child(2) {
+            text-align: right;
+        }
+
+        .postlink-button {
+            padding: 0.8em;
+            border: 1px solid var(--color-border);
+            border-radius: 0.3em;
+            background: var(--color-bg);
+            color: var(--color-fg);
+            cursor: pointer;
+
+            box-shadow: 0 -0.15em 0 rgba(0, 0, 0, 0.9) inset;
+
+            text-decoration: none;
+
+            &:hover {
+                background: #333;
+            }
+
+            &:active:not(:disabled) {
+                background: var(--color-bg);
+                box-shadow: 0 0.15em 0 rgba(0, 0, 0, 0.5) inset;
+            }
+
+            & strong {
+                margin: 0 0 0.2em 0;
+                display: block;
+                font-size: 2em;
+                font-family: "Red Hat Display", sans-serif;
+            }
+
+            & span {
+                font-size: 0.8em;
+            }
+        }
     }
 }
 
@@ -469,7 +512,7 @@ article {
         color: var(--color-fg);
         border-radius: 0.25em;
 
-        box-shadow: 0 0.1em 0 rgba(0, 0, 0, 0.5) inset;
+        box-shadow: 0 0.15em 0 rgba(0, 0, 0, 0.5) inset;
 
         &.invalid {
             border-color: #c00;
@@ -497,7 +540,7 @@ article {
         color: var(--color-fg);
         cursor: pointer;
 
-        box-shadow: 0 -0.1em 0 rgba(0, 0, 0, 0.5) inset;
+        box-shadow: 0 -0.15em 0 rgba(0, 0, 0, 0.5) inset;
     }
 
     & button:hover,
@@ -508,7 +551,7 @@ article {
     & button:active:not(:disabled),
     & select:active:not(:disabled) {
         background: var(--color-bg);
-        box-shadow: 0 0.1em 0 rgba(0, 0, 0, 0.5) inset;
+        box-shadow: 0 0.15em 0 rgba(0, 0, 0, 0.5) inset;
     }
 
     & button:disabled,
