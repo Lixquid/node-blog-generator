@@ -50,9 +50,18 @@ p {
 }
 
 article {
-    & p + ol,
-    & p + ul {
+    & ul,
+    & ol {
+        margin-top: 0;
+    }
+
+    & li p + ol,
+    & li p + ul {
         margin-top: -1em;
+    }
+
+    & li::marker {
+        color: var(--color-secondary);
     }
 
     & h1 {
