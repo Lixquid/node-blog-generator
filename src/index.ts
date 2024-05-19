@@ -268,7 +268,7 @@ const slugs = fs
     .readdirSync(join(__dirname, "..", "blog"), {
         withFileTypes: true,
     })
-    .filter((entry) => entry.isDirectory())
+    .filter((entry) => entry.isDirectory() && !entry.name.startsWith("."))
     .map((entry) => entry.name);
 
 // Build metadata for each blog post
@@ -330,6 +330,7 @@ for (const post of allPosts) {
 // Build the tag pages and tag index page
 const tags: { [tag: string]: PostData[] } = {};
 for (const post of posts) {
+    if (!post.tags) continue;
     for (const tag of post.tags) {
         if (!tags[tag]) tags[tag] = [];
         tags[tag].push(post);
