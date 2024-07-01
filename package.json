@@ -35,8 +35,8 @@
     "marked": "^9.1.5",
     "marked-highlight": "^2.0.6",
     "modern-normalize": "^2.0.0",
-    "ts-node": "^10.9.1",
-    "typescript": "^5.2.2",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.5.3",
     "vite": "^4.5.0"
   }
 }
