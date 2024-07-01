@@ -56,6 +56,13 @@
                         {{/if}}
                     </div>
                 </div>
+                {{#if hidden}}
+                    <blockquote class="alert-warning">
+                        This post is hidden and only accessible via direct
+                        links; it may be obsolete or contain outdated
+                        information.
+                    </blockquote>
+                {{/if}}
             </header>
             <article>{{{body}}}</article>
             <footer>
