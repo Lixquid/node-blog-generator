@@ -42,6 +42,39 @@ a {
 
     &:hover {
         color: #fff;
+
+        &[href]:not(:where(
+            /* exclude hash only links */
+            [href^="#"],
+            /* exclude javascript only links */
+            [href^="javascript:" i],
+            /* exclude relative but not double slash only links */
+            [href^="/"]:not([href^="//"]),
+            /* exclude links to my own domain */
+            [href*="//lixquid.com"]
+        )):after {
+            background-color: #fff;
+        }
+    }
+
+    &[href]:not(:where(
+        /* exclude hash only links */
+        [href^="#"],
+        /* exclude javascript only links */
+        [href^="javascript:" i],
+        /* exclude relative but not double slash only links */
+        [href^="/"]:not([href^="//"]),
+        /* exclude links to my own domain */
+        [href*="//lixquid.com"]
+    )):after {
+        content: " ";
+        background-color: var(--color-primary);
+        mask: url("./icon_external.svg") no-repeat center/contain;
+        display: inline-block;
+        width: 0.8em;
+        height: 0.8em;
+        margin-left: 0.2em;
+        transition: background-color 0.05s ease-in-out;
     }
 }
 
