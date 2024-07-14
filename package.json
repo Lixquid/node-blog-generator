@@ -8,11 +8,13 @@
   "scripts": {
     "start": "ts-node src/index.ts && vite -c vite.config.ts",
     "build": "ts-node src/index.ts && vite build",
-    "watch": "nodemon --watch src --watch blog -e md,html,css,ts,hbs --exec \"yarn start\""
+    "watch": "nodemon --watch src --watch blog -e md,html,css,ts,hbs --exec \"yarn start\"",
+    "test": "globstar -- node --loader tsx --test \"src/**/*.test.ts\""
   },
   "license": "MIT",
   "private": true,
   "main": "index.js",
+  "type": "module",
   "prettier": {
     "tabWidth": 4,
     "overrides": [
@@ -26,7 +28,9 @@
   },
   "devDependencies": {
     "@types/node": "^20.8.10",
-    "nodemon": "^3.1.0"
+    "globstar": "^1.0.0",
+    "nodemon": "^3.1.0",
+    "tsx": "^4.16.2"
   },
   "dependencies": {
     "front-matter": "^4.0.2",
@@ -37,6 +41,7 @@
     "modern-normalize": "^2.0.0",
     "ts-node": "^10.9.2",
     "typescript": "^5.5.3",
-    "vite": "^4.5.0"
+    "vite": "^4.5.0",
+    "zod": "^3.23.8"
   }
 }
