@@ -6,7 +6,10 @@
             date: string (ISO 8601)
             edited: string (ISO 8601) | null
             tags: string[]
-            related: string[]
+            related: {
+                title: string
+                slug: string
+            }[]
             previousPost: {
                 title: string
                 slug: string
