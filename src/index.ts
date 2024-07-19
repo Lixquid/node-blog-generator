@@ -1,9 +1,15 @@
-import frontmatter from "front-matter";
+import frontmatterRaw from "front-matter";
 import Handlebars from "handlebars";
 import hljs from "highlight.js";
 import { Marked, type Tokens } from "marked";
 import fs from "node:fs";
 import { join, normalize } from "node:path";
+
+// Fix default export typing error
+const frontmatter = frontmatterRaw as unknown as typeof frontmatterRaw.default;
+
+// Get __dirname from import.meta.url
+const __dirname = new URL(".", import.meta.url).pathname;
 
 //#region Types
 interface FrontMatter {

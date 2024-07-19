@@ -6,8 +6,8 @@
     "url": "https://lixquid.com"
   },
   "scripts": {
-    "start": "ts-node src/index.ts && vite -c vite.config.ts",
-    "build": "ts-node src/index.ts && vite build",
+    "start": "tsx src/index.ts && vite -c vite.config.ts",
+    "build": "tsx src/index.ts && vite build",
     "watch": "nodemon --watch src --watch blog -e md,html,css,ts,hbs --exec \"yarn start\"",
     "test": "globstar -- node --loader tsx --test \"src/**/*.test.ts\""
   },
@@ -39,7 +39,6 @@
     "marked": "^9.1.5",
     "marked-highlight": "^2.0.6",
     "modern-normalize": "^2.0.0",
-    "ts-node": "^10.9.2",
     "typescript": "^5.5.3",
     "vite": "^4.5.0",
     "zod": "^3.23.8"
