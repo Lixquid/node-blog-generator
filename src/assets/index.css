@@ -558,7 +558,8 @@ article {
     }
 
     & input[type="text"],
-    & input[type="number"] {
+    & input[type="number"],
+    & textarea {
         background: #222;
         padding: 0.5em 0.7em;
         border: 1px solid #333;
