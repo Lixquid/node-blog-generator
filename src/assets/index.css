@@ -568,8 +568,7 @@ article {
 
         box-shadow: 0 0.15em 0 rgba(0, 0, 0, 0.5) inset;
 
-        &:invalid,
-        &.invalid {
+        &:invalid {
             border-color: #c00;
         }
 
