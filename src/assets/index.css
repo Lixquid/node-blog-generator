@@ -82,7 +82,7 @@ p {
     margin-top: 0;
 }
 
-& blockquote {
+blockquote {
     margin: 1em 0 1em 0;
     border: 1px solid var(--color-border);
     border-left: 0.25em solid var(--color-border);
