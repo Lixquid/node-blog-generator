@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { parseCodeBlockArgs } from "../util";
+import { parseCodeBlockArgs } from "../util.ts";
 
 test("parseCodeBlocksArgs", () => {
 	function t(str: string, expected: Record<string, string | boolean>) {

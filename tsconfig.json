@@ -1,8 +1,14 @@
 {
 	"compilerOptions": {
-		"esModuleInterop": true,
+		"target": "esnext",
 		"module": "NodeNext",
 		"moduleResolution": "NodeNext",
+		"verbatimModuleSyntax": true,
+		"erasableSyntaxOnly": true,
+		"allowImportingTsExtensions": true,
+		"noEmit": true,
+		"skipLibCheck": true,
+		"esModuleInterop": true,
 		"allowSyntheticDefaultImports": true
 	}
 }

@@ -1,5 +1,5 @@
 import { readFile } from "node:fs/promises";
-import { fileInfo } from "../lib/util.js";
+import { fileInfo } from "../lib/util.ts";
 
 const { __dirname } = fileInfo(import.meta.url);
 

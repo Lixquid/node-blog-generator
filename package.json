@@ -1,46 +1,47 @@
 {
-  "name": "blog-generator",
-  "version": "0.1.0",
-  "author": {
-    "name": "Lixquid",
-    "url": "https://lixquid.com"
-  },
-  "scripts": {
-    "start": "tsx src/index.ts && vite -c vite.config.ts",
-    "build": "tsx src/index.ts && vite build",
-    "watch": "nodemon --watch src --watch blog -e md,html,css,ts,hbs --exec \"yarn start\"",
-    "test": "globstar -- node --loader tsx --test \"src/**/*.test.ts\""
-  },
-  "license": "MIT",
-  "private": true,
-  "main": "index.js",
-  "type": "module",
-  "prettier": {
-    "tabWidth": 4,
-    "overrides": [
-      {
-        "files": "**/*.hbs",
-        "options": {
-          "parser": "angular"
-        }
-      }
-    ]
-  },
-  "devDependencies": {
-    "@types/node": "^20.8.10",
-    "globstar": "^1.0.0",
-    "nodemon": "^3.1.0",
-    "tsx": "^4.16.2"
-  },
-  "dependencies": {
-    "front-matter": "^4.0.2",
-    "handlebars": "^4.7.8",
-    "highlight.js": "^11.9.0",
-    "marked": "^9.1.5",
-    "marked-highlight": "^2.0.6",
-    "modern-normalize": "^2.0.0",
-    "typescript": "^5.5.3",
-    "vite": "^4.5.0",
-    "zod": "^3.23.8"
-  }
+    "name": "blog-generator",
+    "version": "0.1.0",
+    "author": {
+        "name": "Lixquid",
+        "url": "https://lixquid.com"
+    },
+    "scripts": {
+        "start": "node src/index.ts build && node src/index.ts serve",
+        "dev": "node src/index.ts watch",
+        "build": "node src/index.ts build",
+        "build:post": "node src/index.ts build",
+        "build:production": "node src/index.ts build --production",
+        "watch": "node src/index.ts watch",
+        "serve": "node src/index.ts serve",
+        "test": "globstar -- node --test \"src/**/*.test.ts\""
+    },
+    "license": "MIT",
+    "private": true,
+    "main": "index.js",
+    "type": "module",
+    "prettier": {
+        "tabWidth": 4,
+        "overrides": [
+            {
+                "files": "**/*.hbs",
+                "options": {
+                    "parser": "angular"
+                }
+            }
+        ]
+    },
+    "devDependencies": {
+        "@types/node": "^24.19.0",
+        "globstar": "^1.0.0"
+    },
+    "dependencies": {
+        "front-matter": "^4.0.2",
+        "handlebars": "^4.7.9",
+        "highlight.js": "^11.12.0",
+        "marked": "^18.0.14",
+        "modern-normalize": "^3.0.1",
+        "typescript": "^7.0.2",
+        "vite": "^8.3.1",
+        "zod": "^4.6.5"
+    }
 }

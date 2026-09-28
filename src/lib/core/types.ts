@@ -27,6 +27,7 @@ export const FrontMatterParser = z.object({
 		.date()
 		.refine((v) => v as ISODate),
 	edited: z.string().date().optional(),
+	description: z.string().optional(),
 	tags: z.array(z.string()),
 	hidden: z.boolean().default(false),
 	related: z.array(z.string()).optional(),

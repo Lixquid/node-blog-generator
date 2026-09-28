@@ -1,38 +1,59 @@
-import { readdirSync, stat } from "node:fs";
+import { readdirSync, statSync } from "node:fs";
 import { join, resolve } from "node:path";
 import { type PluginOption, defineConfig } from "vite";
-import { fileInfo } from "./src/lib/util.js";
 
-const { __dirname } = fileInfo(import.meta.url);
-
-/** Redirects all requests from `/foo` to `/foo/` if `out/foo` is a
- * directory. */
-function redirectMissingTrailingSlash(): PluginOption {
+/**
+ * In dev mode, Vite only serves `dir/index.html` for URLs that already end
+ * with a trailing slash. Links generated without one (e.g. `/20250625-monads`)
+ * resolve to a valid directory on disk and otherwise 404. This plugin issues a
+ * redirect to the same URL with a trailing slash in that case.
+ */
+function directoryRedirectPlugin(): PluginOption {
     return {
-        name: "redirect-missing-trailing-slash",
-        configureServer({ middlewares }) {
-            middlewares.use((req, res, next) => {
-                if (req.url?.endsWith("/")) {
+        name: "directory-redirect",
+        apply: "serve",
+        enforce: "pre",
+        configureServer(server) {
+            server.middlewares.use((req, res, next) => {
+                let pathname: string;
+                let search: string;
+                try {
+                    const url = new URL(req.url ?? "/", "http://localhost");
+                    pathname = decodeURIComponent(url.pathname);
+                    search = url.search;
+                } catch {
                     next();
                     return;
                 }
-
-                const path = join(__dirname, "out", req.url!);
-                stat(path, (err, stats) => {
-                    if (!err && stats.isDirectory()) {
-                        res.statusCode = 302;
-                        res.setHeader("Location", req.url! + "/");
+                if (
+                    !pathname.startsWith("/") ||
+                    pathname.endsWith("/") ||
+                    pathname.includes("\0")
+                ) {
+                    next();
+                    return;
+                }
+                try {
+                    const filePath = join(server.config.root, pathname);
+                    if (statSync(filePath).isDirectory()) {
+                        res.statusCode = 301;
+                        res.setHeader("Location", `${pathname}/${search}`);
                         res.end();
                         return;
                     }
-                    next();
-                });
+                } catch {
+                    // Not a directory (or unreadable): fall through.
+                }
+                next();
             });
         },
     };
 }
 
-// Find all *.html files in out-staging and mark them as entrypoints
+// Directory containing this config file: the project root.
+const projectRoot: string = import.meta.dirname;
+
+// Find all *.html files in out and mark them as entrypoints
 function recursiveSearch(dir: string): string[] {
     const out: string[] = [];
     for (const file of readdirSync(dir, { withFileTypes: true })) {
@@ -45,16 +66,17 @@ function recursiveSearch(dir: string): string[] {
     }
     return out;
 }
-const entryFiles = recursiveSearch(join(__dirname, "out"));
+const entryFiles = recursiveSearch(join(projectRoot, "out"));
 
 export default defineConfig({
     root: "out",
-    plugins: [redirectMissingTrailingSlash()],
+    plugins: [directoryRedirectPlugin()],
     build: {
+        outDir: "dist",
         rollupOptions: {
             input: entryFiles.reduce(
                 (acc, path, i) => {
-                    const p = resolve(__dirname, path);
+                    const p = resolve(projectRoot, path);
                     acc[i.toString()] = p;
                     return acc;
                 },
@@ -63,7 +85,7 @@ export default defineConfig({
         },
     },
     server: {
-        port: 9000,
+        port: 8080,
         host: true,
     },
 });
