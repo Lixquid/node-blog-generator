@@ -23,7 +23,7 @@ document.addEventListener("DOMContentLoaded", () => {
     for (const e of Array.from(document.querySelectorAll(".relative-date"))) {
         if (!isHTMLElement(e)) continue;
 
-        const date = new Date(e.innerText);
+        const date = new Date(e.getAttribute("datetime") ?? e.innerText);
         if (isNaN(date.getTime())) continue;
         e.innerText = relativeTime((Date.now() - date.getTime()) / 86_400_000);
         e.title = date.toLocaleDateString();

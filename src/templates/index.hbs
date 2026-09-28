@@ -39,7 +39,9 @@
                         <li>
                             <a href="/{{ slug }}">{{ title }}</a>
                             <small class="text-subtle" title="{{ date }}"
-                                >(<span class="relative-date">{{ date }}</span
+                                >(<time class="relative-date" datetime="{{ date }}">{{
+                                    date
+                                }}</time
                                 >)</small
                             >
                         </li>

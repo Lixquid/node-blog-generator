@@ -59,9 +59,14 @@
                     <hr />
 
                     <div>
-                        <span class="relative-date">{{ date }}</span>
+                        <time class="relative-date" datetime="{{ date }}">{{
+                            date
+                        }}</time>
                         {{#if edited}}
-                        (Edited <span class="relative-date">{{ edited }}</span
+                        (Edited
+                        <time class="relative-date" datetime="{{ edited }}">{{
+                            edited
+                        }}</time
                         >)
                         {{/if}}
                     </div>
