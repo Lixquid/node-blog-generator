@@ -36,7 +36,31 @@ test("linenumber offset option is respected", () => {
 
 test("title option adds a header", () => {
     const html = render('```ts title="My Name"\ncode\n```\n');
-    assert.match(html, /<div class="codeblock-header">My Name<\/div>/);
+    assert.match(
+        html,
+        /<span class="codeblock-header-title">My Name<\/span>/,
+    );
+});
+
+test("copy option adds a copy button", () => {
+    const html = render("```ts copy\ncode\n```\n");
+    assert.match(html, /<div class="codeblock-header">/);
+    assert.match(html, /<button type="button" class="codeblock-copy"/);
+    assert.match(html, /src="\/assets\/icon_copy\.svg"/);
+    assert.match(html, /<span class="codeblock-copy-text">Copy<\/span>/);
+});
+
+test("copy option shows a header even without a title", () => {
+    const html = render("```ts copy\ncode\n```\n");
+    assert.match(html, /<span class="codeblock-header-title"><\/span>/);
+});
+
+test("title and copy options combine in one header", () => {
+    const html = render('```ts title="My Name" copy\ncode\n```\n');
+    assert.match(
+        html,
+        /<span class="codeblock-header-title">My Name<\/span>.*<button type="button" class="codeblock-copy"/,
+    );
 });
 
 test("type option adds styling and an icon", () => {

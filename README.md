@@ -38,13 +38,32 @@ stream is passed through a pipeline of modular **transformers**
 - **alertBlockquotes** converts blockquotes starting with `**Note:**`,
   `**Tip:**`, or `**Warning:**` into styled alert blocks.
 - **codeBlock** adds highlight.js highlighting, headers (`title=Name`), line
-  numbers (`linenumber`, `linenumber=20`), and semantic styling
+  numbers (`linenumber`, `linenumber=20`), copy-to-clipboard buttons
+  (`copy`), and semantic styling
   (`type=doesntcompile|errors|incorrect|badpractice|dangerous|correct`) to
   fenced code blocks.
 
 New transformers can be added as standalone modules and included in the
 pipeline by extending the `createPostTransformer(...)` call in
 `src/commands.ts`.
+
+### Code block copy buttons
+
+Fenced code blocks support a `copy` attribute (in the same info string as
+`title`, `linenumber`, and `type`):
+
+````
+```typescript copy
+console.log("Hello!");
+```
+````
+
+When present, a copy button (icon plus the text "Copy") is rendered at the
+right end of the code block header. Blocks with `copy` but no `title` still
+get a header row to host the button. The client-side behaviour lives in
+`src/assets/index.ts`: clicking the button copies the code block contents to
+the clipboard via `navigator.clipboard` and shows "Copied!" feedback for two
+seconds.
 
 ## Asset resolution
 

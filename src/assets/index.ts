@@ -43,4 +43,27 @@ document.addEventListener("DOMContentLoaded", () => {
         const hue = stringToHue(e.innerText);
         e.style.color = `hsl(${hue}, 30%, 74%)`;
     }
+
+    for (const btn of Array.from(
+        document.querySelectorAll(".codeblock-copy"),
+    )) {
+        if (!isHTMLElement(btn)) continue;
+
+        btn.addEventListener("click", () => {
+            const code = btn.closest(".codeblock")?.querySelector("code");
+            const text = btn.querySelector(".codeblock-copy-text");
+            if (!code) return;
+
+            navigator.clipboard
+                .writeText(code.textContent ?? "")
+                .then(() => {
+                    if (!isHTMLElement(text)) return;
+                    const original = text.innerText;
+                    text.innerText = "Copied!";
+                    window.setTimeout(() => {
+                        text.innerText = original;
+                    }, 2000);
+                });
+        });
+    }
 });

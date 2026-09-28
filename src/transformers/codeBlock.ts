@@ -42,6 +42,9 @@ export interface CodeBlockTransformerOptions {
  * - `linenumber=20` - shows line numbers, starting at 20.
  * - `type=doesntcompile|errors|incorrect|badpractice|dangerous|correct` -
  *   attaches semantic styling and an icon to the block.
+ * - `copy` - shows a "Copy" button in the header which copies the code block
+ *   contents to the clipboard (see `src/assets/index.ts` for the client-side
+ *   behaviour).
  *
  * Blocks with no special options and an unknown language are left for
  * marked's default renderer.
@@ -61,6 +64,7 @@ export function createCodeBlockTransformer(
         let type: string | undefined;
         let linenumber: number | undefined;
         let header: string | undefined;
+        let copy = false;
 
         if (language && hljs.getLanguage(language)) {
             text = hljs.highlight(text, { language }).value;
@@ -92,6 +96,11 @@ export function createCodeBlockTransformer(
             wrapInCodeblock = true;
         }
 
+        if (opts.copy === true) {
+            copy = true;
+            wrapInCodeblock = true;
+        }
+
         if (!wrapInCodeblock) return undefined;
 
         const gutter = linenumber
@@ -103,8 +112,11 @@ export function createCodeBlockTransformer(
         const icon = type
             ? `<img class="codeblock-icon" src="${iconBase}/icon_${type}.svg" title="${codeBlockTypeTitles[type]}" />`
             : "";
-        const headerHtml = header
-            ? `<div class="codeblock-header">${header}</div>`
+        const copyButton = copy
+            ? `<button type="button" class="codeblock-copy" title="Copy code to clipboard"><img class="codeblock-copy-icon" src="${iconBase}/icon_copy.svg" alt="" /><span class="codeblock-copy-text">Copy</span></button>`
+            : "";
+        const headerHtml = header || copy
+            ? `<div class="codeblock-header"><span class="codeblock-header-title">${header ?? ""}</span>${copyButton}</div>`
             : "";
 
         return `<div class="codeblock ${type ? `codeblock-${type}` : ""}">${headerHtml}<div class="codeblock-body">${gutter}<pre class="codeblock-content"><code class="${
