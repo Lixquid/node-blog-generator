@@ -13,4 +13,5 @@ export {
     getPosts,
 } from "./generator.ts";
 export { parsePost } from "./parse.ts";
+export { renderRss, rssPath, siteUrl } from "./rss.ts";
 export * from "./types.ts";

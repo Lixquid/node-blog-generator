@@ -23,6 +23,7 @@ src/
 │   │   ├── generator.ts     # the SiteGenerator: builds posts & index pages
 │   │   ├── parse.ts         # front matter parsing
 │   │   ├── render.ts        # handlebars template loading
+│   │   ├── rss.ts           # RSS 2.0 feed generation
 │   │   ├── types.ts         # shared types (front matter schema, post data)
 │   │   └── util.ts          # codeblock argument parsing
 │   └── util.ts              # misc utilities
@@ -69,6 +70,19 @@ references resolve identically in:
   production version with Vite into `out/dist`.
 - `npm test` - run the unit tests.
 
+## RSS feed
+
+A full build generates an RSS 2.0 feed at `/rss.xml` (`src/lib/core/rss.ts`).
+It contains the visible posts, most recent first, with their front-matter
+`description` as the item description and canonical permalinks based on the
+site URL (`https://blog.lixquid.com`). The feed URL is advertised on every
+page with `<link rel="alternate" type="application/rss+xml">` tags, and
+linked in the navigation bar.
+
+The production Vite build does not copy unreferenced files from `out/` into
+`out/dist`, so `vite.config.ts` contains a small plugin that emits the
+generated feed into the bundle.
+
 ## Generator API
 
 `SiteGenerator` (in `src/lib/core/generator.ts`) exposes two build methods:
@@ -77,5 +91,5 @@ references resolve identically in:
   context (previous/next post navigation) is always computed from the full
   list of posts, so single-post builds are identical to the corresponding
   output within a full site build.
-- `buildAll()` - builds all posts plus the site-wide assets, tag pages, and
-  the index page.
+- `buildAll()` - builds all posts plus the site-wide assets, tag pages, the
+  index page, and the RSS feed.

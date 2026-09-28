@@ -16,7 +16,8 @@ import {
     type TagPageContext,
     type Templates,
 } from "./render.ts";
-import type { PostData, Slug } from "./types.ts";
+import { renderRss, type RssPost } from "./rss.ts";
+import type { ISODate, PostData, Slug } from "./types.ts";
 
 /** The directory containing all blog post folders. */
 export const blogDir = resolveProjectDir("blog");
@@ -253,6 +254,19 @@ export class SiteGenerator {
         await writeFile(
             join(outDir, "index.html"),
             templates.index(indexContext),
+        );
+
+        // Build the RSS feed from the visible posts.
+        await writeFile(
+            join(outDir, "rss.xml"),
+            renderRss(
+                visible.map((p): RssPost => ({
+                    title: p.frontMatter.title,
+                    date: p.frontMatter.date as ISODate,
+                    slug: p.slug,
+                    description: p.frontMatter.description,
+                })),
+            ),
         );
     }
 

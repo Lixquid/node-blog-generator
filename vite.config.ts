@@ -1,4 +1,4 @@
-import { readdirSync, statSync } from "node:fs";
+import { readdirSync, readFileSync, statSync } from "node:fs";
 import { join, resolve } from "node:path";
 import { type PluginOption, defineConfig } from "vite";
 
@@ -53,6 +53,25 @@ function directoryRedirectPlugin(): PluginOption {
 // Directory containing this config file: the project root.
 const projectRoot: string = import.meta.dirname;
 
+/**
+ * The generated RSS feed is not referenced from any HTML entrypoint, so it
+ * would not otherwise be copied into the production bundle. This plugin
+ * emits it as a bundle asset instead.
+ */
+function rssFilePlugin(): PluginOption {
+    return {
+        name: "rss-file",
+        apply: "build",
+        generateBundle() {
+            this.emitFile({
+                type: "asset",
+                fileName: "rss.xml",
+                source: readFileSync(join(projectRoot, "out", "rss.xml"), "utf8"),
+            });
+        },
+    };
+}
+
 // Find all *.html files in out and mark them as entrypoints
 function recursiveSearch(dir: string): string[] {
     const out: string[] = [];
@@ -70,7 +89,7 @@ const entryFiles = recursiveSearch(join(projectRoot, "out"));
 
 export default defineConfig({
     root: "out",
-    plugins: [directoryRedirectPlugin()],
+    plugins: [directoryRedirectPlugin(), rssFilePlugin()],
     build: {
         outDir: "dist",
         rollupOptions: {
