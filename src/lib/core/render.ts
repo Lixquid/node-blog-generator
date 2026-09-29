@@ -16,6 +16,8 @@ export interface PostPageContext {
     tags: string[];
     hidden: boolean;
     body: string;
+    /** Pre-serialized JSON-LD Article definition for the post. */
+    jsonLd: string;
     previousPost: { slug: string; title: string } | undefined;
     nextPost: { slug: string; title: string } | undefined;
 }

@@ -10,6 +10,7 @@ export const postTemplate = Handlebars.compile<{
     date: ISODate;
     edited: ISODate | undefined;
     tags: string[];
+    jsonLd: string;
     related: {
         title: Title;
         slug: Slug;

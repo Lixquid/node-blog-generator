@@ -17,7 +17,7 @@ import {
     type TagPageContext,
     type Templates,
 } from "./render.ts";
-import { renderRss, type RssPost } from "./rss.ts";
+import { renderRss, siteUrl, authorUrl, type RssPost } from "./rss.ts";
 import { getTagMetadata, loadTagCatalog } from "./tags.ts";
 import type { ISODate, PostData, Slug } from "./types.ts";
 
@@ -36,6 +36,35 @@ function resolveProjectDir(...parts: string[]): string {
     const { __dirname } = fileInfo(import.meta.url);
     // src/lib/core -> src -> project root
     return join(__dirname, "..", "..", "..", ...parts);
+}
+
+/**
+ * Builds a pre-serialized schema.org JSON-LD `Article` definition for a post.
+ * The `<` characters are escaped so the JSON can be safely embedded inside a
+ * `<script>` element.
+ */
+function buildJsonLd(
+    post: PostData,
+    fm: PostData["frontMatter"],
+): string {
+    const url = `${siteUrl}/${post.slug}/`;
+    const jsonLd = {
+        "@context": "https://schema.org",
+        "@type": "Article",
+        headline: fm.title,
+        datePublished: fm.date,
+        dateModified: fm.edited ?? fm.date,
+        ...(fm.description ? { description: fm.description } : {}),
+        keywords: fm.tags,
+        url: url,
+        mainEntityOfPage: url,
+        author: {
+            "@type": "Person",
+            name: "Lixquid",
+            url: authorUrl,
+        },
+    };
+    return JSON.stringify(jsonLd).replaceAll("<", "\\u003c");
 }
 
 /** All valid post directory names, sorted ascending (oldest first). */
@@ -112,6 +141,7 @@ export class SiteGenerator {
 
         const fm = post.frontMatter;
         const context: PostPageContext = {
+            jsonLd: buildJsonLd(post, fm),
             slug: post.slug,
             title: fm.title,
             date: fm.date,

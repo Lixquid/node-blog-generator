@@ -3,6 +3,9 @@ import type { ISODate } from "./types.ts";
 /** The base URL that the site is deployed at. */
 export const siteUrl = "https://blog.lixquid.com";
 
+/** The URL of the author's main site. */
+export const authorUrl = "https://lixquid.com";
+
 /** The absolute path of the RSS feed on the site. */
 export const rssPath = "/rss.xml";
 
