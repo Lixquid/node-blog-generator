@@ -46,6 +46,9 @@
                                     >{{ date }}</time
                                 >)</small
                             >
+                            {{#if hidden}}
+                            <small class="text-subtle">(hidden)</small>
+                            {{/if}}
                         </li>
                         {{/each}}
                     </ul>

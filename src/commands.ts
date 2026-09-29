@@ -15,8 +15,8 @@ const transformer = createPostTransformer(
 );
 
 /** Creates a generator with the standard transformer pipeline. */
-export function createGenerator(): SiteGenerator {
-    return new SiteGenerator(transformer);
+export function createGenerator(devMode = false): SiteGenerator {
+    return new SiteGenerator(transformer, devMode);
 }
 
 //#region build
@@ -72,7 +72,9 @@ export async function serveCommand(): Promise<void> {
  * rebuilding single posts or the entire site as appropriate.
  */
 export async function devCommand(): Promise<void> {
-    const generator = createGenerator();
+    // Dev mode: hidden posts are shown in the post index (but not in tag
+    // pages or the RSS feed).
+    const generator = createGenerator(true);
     await generator.buildAll();
     await serveCommand();
     await watchCommand(generator);

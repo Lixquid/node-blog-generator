@@ -104,9 +104,15 @@ export class SiteGenerator {
     private templates: Templates | undefined;
     private transformer: PostTransformer;
     private marked: Marked;
+    /** In dev mode, hidden posts are also listed in the post index. */
+    private readonly devMode: boolean;
 
-    constructor(transformer: PostTransformer = createPostTransformer()) {
+    constructor(
+        transformer: PostTransformer = createPostTransformer(),
+        devMode = false,
+    ) {
         this.transformer = transformer;
+        this.devMode = devMode;
         this.marked = new Marked();
     }
 
@@ -277,12 +283,16 @@ export class SiteGenerator {
         const topics = byType("topic");
         const types = byType("type");
 
-        // Build the index page.
-        const indexPosts: PostListItem[] = visible
+        // Build the index page. In dev mode, hidden posts are included in
+        // the index too (and marked as such), so they can be previewed;
+        // in production builds only visible posts are listed.
+        const indexSource = this.devMode ? allPosts : visible;
+        const indexPosts: PostListItem[] = indexSource
             .map((p) => ({
                 title: p.frontMatter.title,
                 date: p.frontMatter.date,
                 slug: p.slug,
+                hidden: p.frontMatter.hidden,
             }))
             .sort(
                 (a, b) =>

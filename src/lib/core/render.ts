@@ -29,6 +29,11 @@ export interface PostListItem {
     title: string;
     date: string;
     slug: string;
+    /**
+     * Whether the post is hidden. Only set in dev mode, where hidden posts
+     * are listed in the index; tag pages and production builds omit it.
+     */
+    hidden?: boolean;
 }
 
 /** A single tag as displayed in a list of tags. */
