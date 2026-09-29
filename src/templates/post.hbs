@@ -7,6 +7,7 @@
             date: string (ISO 8601)
             edited: string (ISO 8601) | null
             tags: string[]
+            url: string (absolute URL of the post page)
             jsonLd: string (pre-serialized JSON-LD Article definition)
             related: {
                 title: string
@@ -33,6 +34,21 @@
             name="description"
             content="{{ title }} - A post from Lixquid's blog"
         />
+        <meta property="og:type" content="article" />
+        <meta property="og:site_name" content="Lixquid" />
+        <meta property="og:title" content="{{ title }} - Lixquid" />
+        <meta
+            property="og:description"
+            content="{{#if description}}{{ description }}{{ else }}{{ title }} - A post from Lixquid's blog{{/if}}"
+        />
+        <meta property="og:url" content="{{ url }}" />
+        <meta property="article:published_time" content="{{ date }}" />
+        {{#if edited}}
+            <meta property="article:modified_time" content="{{ edited }}" />
+        {{/if}}
+        {{#each tags}}
+            <meta property="article:tag" content="{{ this }}" />
+        {{/each}}
         <link rel="stylesheet" href="/assets/modern-normalize.css" />
         <link rel="stylesheet" href="/assets/index.css" />
         <link

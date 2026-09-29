@@ -15,6 +15,8 @@ export interface PostPageContext {
     description: string | undefined;
     tags: string[];
     hidden: boolean;
+    /** Absolute URL of the post page. */
+    url: string;
     body: string;
     /** Pre-serialized JSON-LD Article definition for the post. */
     jsonLd: string;

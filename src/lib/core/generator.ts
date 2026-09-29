@@ -149,6 +149,7 @@ export class SiteGenerator {
             description: fm.description,
             tags: fm.tags,
             hidden: fm.hidden,
+            url: `${siteUrl}/${post.slug}/`,
             body: renderTransformed(
                 this.marked,
                 post.body,
