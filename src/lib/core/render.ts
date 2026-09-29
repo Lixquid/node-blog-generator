@@ -2,6 +2,7 @@ import Handlebars from "handlebars";
 import { readFile } from "node:fs/promises";
 import { join } from "node:path";
 import { fileInfo } from "../util.ts";
+import type { TagType } from "./tags.ts";
 
 const { __dirname } = fileInfo(import.meta.url);
 
@@ -26,15 +27,33 @@ export interface PostListItem {
     slug: string;
 }
 
+/** A single tag as displayed in a list of tags. */
+export interface TagListItem {
+    tag: string;
+    /** The subsection the tag belongs to. */
+    type: TagType;
+    description: string;
+}
+
+/** Context for the tag index page template. */
+export interface TagListPageContext {
+    /** All tags, in alphabetical order. */
+    tags: TagListItem[];
+}
+
 /** Context for the index page template. */
 export interface IndexPageContext {
     posts: PostListItem[];
-    tags: string[];
+    /** Tags of type "topic", in alphabetical order. */
+    topics: string[];
+    /** Tags of type "type", in alphabetical order. */
+    types: string[];
 }
 
 /** Context for the tag page template. */
 export interface TagPageContext {
     tag: string;
+    description: string | undefined;
     posts: PostListItem[];
 }
 
@@ -43,7 +62,7 @@ export interface Templates {
     index: Handlebars.TemplateDelegate<IndexPageContext>;
     post: Handlebars.TemplateDelegate<PostPageContext>;
     tag: Handlebars.TemplateDelegate<TagPageContext>;
-    tagIndex: Handlebars.TemplateDelegate<{ tags: string[] }>;
+    tagIndex: Handlebars.TemplateDelegate<TagListPageContext>;
 }
 
 /**
@@ -69,7 +88,7 @@ export async function loadTemplates(): Promise<Templates> {
     const tag = Handlebars.compile<TagPageContext>(
         await readFile(join(templateDir, "tag.hbs"), "utf8"),
     );
-    const tagIndex = Handlebars.compile<{ tags: string[] }>(
+    const tagIndex = Handlebars.compile<TagListPageContext>(
         await readFile(join(templateDir, "tagIndex.hbs"), "utf8"),
     );
 

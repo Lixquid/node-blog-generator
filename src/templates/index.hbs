@@ -7,7 +7,8 @@
                 date: string (ISO 8601)
                 slug: string
             }[] (in reverse chronological order)
-            tags: string[] (in alphabetical order)
+            topics: string[] (in alphabetical order)
+            types: string[] (in alphabetical order)
     }}
     <head>
         <meta charset="UTF-8" />
@@ -39,9 +40,10 @@
                         <li>
                             <a href="/{{ slug }}">{{ title }}</a>
                             <small class="text-subtle" title="{{ date }}"
-                                >(<time class="relative-date" datetime="{{ date }}">{{
-                                    date
-                                }}</time
+                                >(<time
+                                    class="relative-date"
+                                    datetime="{{ date }}"
+                                    >{{ date }}</time
                                 >)</small
                             >
                         </li>
@@ -53,7 +55,17 @@
                         <h2>Tags</h2>
                     </header>
                     <ul>
-                        {{#each tags}}
+                        {{#each types}}
+                        <li>
+                            <a href="/tags/{{ this }}" class="coloured-tag">
+                                #{{ this }}
+                            </a>
+                        </li>
+                        {{/each}}
+                    </ul>
+                    <h3>Topics:</h3>
+                    <ul>
+                        {{#each topics}}
                         <li>
                             <a href="/tags/{{ this }}" class="coloured-tag">
                                 #{{ this }}

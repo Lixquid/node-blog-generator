@@ -2,7 +2,10 @@
 <html lang="en">
     {{!
         Arguments:
-            tags: string[] (in alphabetical order)
+            tags: {
+                tag: string
+                description: string
+            }[] (in alphabetical order)
     }}
     <head>
         <meta charset="UTF-8" />
@@ -27,12 +30,17 @@
             <header>
                 <h1>Tags</h1>
             </header>
-            <ul>
+            <ul class="tag-list">
                 {{#each tags}}
                 <li>
-                    <a href="/tags/{{ this }}" class="coloured-tag">
-                        #{{ this }}
+                    <a href="/tags/{{ tag }}" class="coloured-tag">
+                        #{{ tag }}
                     </a>
+                    {{#if description}}
+                    <div class="tag-description text-subtle">
+                        {{ description }}
+                    </div>
+                    {{/if}}
                 </li>
                 {{/each}}
             </ul>

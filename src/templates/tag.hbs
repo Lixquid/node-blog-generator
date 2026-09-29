@@ -3,6 +3,7 @@
     {{!
         Arguments:
             tag: string
+            description: string | undefined
             posts: {
                 title: string
                 date: string (ISO 8601)
@@ -31,6 +32,9 @@
             {{> header}}
             <header>
                 <h1 class="coloured-tag">#{{ tag }}</h1>
+                {{#if description}}
+                <p class="header-subtitle">{{ description }}</p>
+                {{/if}}
             </header>
             <ul>
                 {{#each posts}}

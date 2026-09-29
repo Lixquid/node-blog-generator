@@ -4,7 +4,9 @@
     font-family: "Red Hat Display";
     font-stretch: 0% 100%;
     font-weight: 300 900;
-    src: local("Red Hat Display"), local("RedHatDisplay-Regular"),
+    src:
+        local("Red Hat Display"),
+        local("RedHatDisplay-Regular"),
         url(./RedHatDisplay-VariableFont_wght.ttf) format("truetype");
 }
 
@@ -12,7 +14,9 @@
     font-family: "Source Code Pro";
     font-style: normal;
     font-weight: 500;
-    src: local("Source Code Pro"), local("SourceCodePro-Medium"),
+    src:
+        local("Source Code Pro"),
+        local("SourceCodePro-Medium"),
         url(./SourceCodePro-Medium-subset.ttf) format("truetype");
 }
 
@@ -199,7 +203,8 @@ article {
             position: absolute;
             content: "";
             display: block;
-            background: url("./hr_badge.svg") center/contain no-repeat,
+            background:
+                url("./hr_badge.svg") center/contain no-repeat,
                 var(--color-bg);
             width: 4em;
             height: 1.5em;
@@ -377,6 +382,16 @@ footer {
     opacity: 0.7;
 }
 
+.tag-list {
+    list-style: none;
+    padding-left: 0;
+
+    & .tag-description {
+        font-size: 0.8em;
+        margin: 0.2em 0 1.2em 0;
+    }
+}
+
 .index-columns {
     display: flex;
     flex-direction: row;
@@ -391,6 +406,11 @@ footer {
     & .index-column-narrow {
         flex: 0 0 auto;
         flex-grow: 35%;
+
+        & ul {
+            list-style: none;
+            padding-left: 0;
+        }
     }
 }
 
@@ -758,7 +778,6 @@ article {
             opacity: 0.55;
             cursor: not-allowed;
         }
-
     }
 
     & input[type="radio"] {
@@ -800,7 +819,6 @@ article {
             opacity: 0.55;
             cursor: not-allowed;
         }
-
     }
 
     & button,

@@ -10,5 +10,6 @@ export const indexTemplate = Handlebars.compile<{
         date: ISODate;
         slug: Slug;
     }[];
-    tags: string[];
+    topics: string[];
+    types: string[];
 }>(await readFile(`${__dirname}/index.hbs`, "utf-8"));

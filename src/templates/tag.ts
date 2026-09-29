@@ -6,6 +6,7 @@ const { __dirname } = fileInfo(import.meta.url);
 
 export const tagTemplate = Handlebars.compile<{
     tag: string;
+    description: string | undefined;
     posts: {
         title: Title;
         date: ISODate;

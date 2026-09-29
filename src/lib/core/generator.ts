@@ -12,11 +12,13 @@ import {
     loadTemplates,
     type IndexPageContext,
     type PostListItem,
+    type TagListItem,
     type PostPageContext,
     type TagPageContext,
     type Templates,
 } from "./render.ts";
 import { renderRss, type RssPost } from "./rss.ts";
+import { getTagMetadata, loadTagCatalog } from "./tags.ts";
 import type { ISODate, PostData, Slug } from "./types.ts";
 
 /** The directory containing all blog post folders. */
@@ -55,11 +57,7 @@ export async function getPosts(): Promise<PostData[]> {
     return Promise.all(
         slugs.map(async (slug): Promise<PostData> => {
             const filename = join(blogDir, slug, "index.md");
-            return parsePost(
-                slug,
-                filename,
-                await readFile(filename, "utf8"),
-            );
+            return parsePost(slug, filename, await readFile(filename, "utf8"));
         }),
     );
 }
@@ -127,12 +125,13 @@ export class SiteGenerator {
                 transformer ?? this.transformer,
                 post,
             ),
-            previousPost: index > 0
-                ? {
-                      slug: visible[index - 1].slug,
-                      title: visible[index - 1].frontMatter.title,
-                  }
-                : undefined,
+            previousPost:
+                index > 0
+                    ? {
+                          slug: visible[index - 1].slug,
+                          title: visible[index - 1].frontMatter.title,
+                      }
+                    : undefined,
             nextPost:
                 index >= 0 && index < visible.length - 1
                     ? {
@@ -212,29 +211,40 @@ export class SiteGenerator {
         }
 
         // Build the tag pages.
+        const catalog = await loadTagCatalog();
         for (const [tag, posts] of Object.entries(tags)) {
             posts.sort(
                 (a, b) =>
                     new Date(b.date).getTime() - new Date(a.date).getTime(),
             );
-            const context: TagPageContext = { tag, posts };
+            const context: TagPageContext = {
+                tag,
+                description: getTagMetadata(catalog, tag).description,
+                posts,
+            };
             const target = join(outDir, "tags", tag);
             await mkdir(target, { recursive: true });
-            await writeFile(
-                join(target, "index.html"),
-                templates.tag(context),
-            );
+            await writeFile(join(target, "index.html"), templates.tag(context));
         }
 
         // Build the tag index page.
-        const tagList = Object.keys(tags).sort((a, b) =>
-            a.toLowerCase().localeCompare(b.toLowerCase()),
-        );
+        const tagList = Object.keys(tags)
+            .sort((a, b) => a.toLowerCase().localeCompare(b.toLowerCase()))
+            .map((tag): TagListItem => ({
+                tag,
+                ...getTagMetadata(catalog, tag),
+            }));
         await mkdir(join(outDir, "tags"), { recursive: true });
         await writeFile(
             join(outDir, "tags", "index.html"),
             templates.tagIndex({ tags: tagList }),
         );
+
+        // Split the tag list into its two subsections.
+        const byType = (type: string) =>
+            tagList.filter((t) => t.type === type).map((t) => t.tag);
+        const topics = byType("topic");
+        const types = byType("type");
 
         // Build the index page.
         const indexPosts: PostListItem[] = visible
@@ -249,7 +259,8 @@ export class SiteGenerator {
             );
         const indexContext: IndexPageContext = {
             posts: indexPosts,
-            tags: tagList,
+            topics,
+            types,
         };
         await writeFile(
             join(outDir, "index.html"),
