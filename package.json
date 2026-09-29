@@ -9,6 +9,7 @@
         "start": "node src/index.ts build && node src/index.ts serve",
         "dev": "node src/index.ts watch",
         "build": "node src/index.ts build",
+        "create": "node src/create.ts",
         "build:post": "node src/index.ts build",
         "build:production": "node src/index.ts build --production",
         "watch": "node src/index.ts watch",
