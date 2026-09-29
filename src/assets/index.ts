@@ -41,7 +41,7 @@ document.addEventListener("DOMContentLoaded", () => {
         if (!isHTMLElement(e)) continue;
 
         const hue = stringToHue(e.innerText);
-        e.style.color = `hsl(${hue}, 30%, 74%)`;
+        e.style.setProperty("--color-primary", `hsl(${hue}, 30%, 74%)`);
     }
 
     for (const btn of Array.from(

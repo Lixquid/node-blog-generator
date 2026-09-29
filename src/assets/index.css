@@ -20,7 +20,9 @@
 
 :root {
     --color-bg: #111315;
-    --color-fg: #d3d7cf;
+    --color-fg: #fff;
+    --color-surface: #1b1d20;
+    --color-surface-hover: #2a2c2f;
     --color-border: #555;
     --color-primary: #2c72c7;
     --color-secondary: #fa3;
@@ -150,7 +152,7 @@ article {
     }
 
     & code {
-        background: #222;
+        background: var(--color-surface);
         padding: 0.1em 0.2em;
         border-radius: 0.3em;
         color: var(--color-secondary);
@@ -340,7 +342,7 @@ footer {
             padding: 0.8em;
             border: 1px solid var(--color-border);
             border-radius: 0.3em;
-            background: var(--color-bg);
+            background: var(--color-surface);
             color: var(--color-fg);
             cursor: pointer;
 
@@ -349,11 +351,11 @@ footer {
             text-decoration: none;
 
             &:hover {
-                background: #333;
+                background: var(--color-surface-hover);
             }
 
             &:active:not(:disabled) {
-                background: var(--color-bg);
+                background: var(--color-surface);
                 box-shadow: 0 0.15em 0 rgba(0, 0, 0, 0.5) inset;
             }
 
@@ -463,7 +465,7 @@ pre code.hljs {
         padding: 0.2em 0.6em;
         font-size: 0.8em;
         border-bottom: 1px solid var(--color-border);
-        background: rgba(0, 0, 0, 0.2);
+        background: rgba(255, 255, 255, 0.05);
     }
 
     & .codeblock-copy {
@@ -477,8 +479,14 @@ pre code.hljs {
         padding: 0;
         cursor: pointer;
         opacity: 0.7;
+        transform: none;
+        box-shadow: none;
 
-        &:hover {
+        &:hover:not(:disabled),
+        &:active:not(:disabled) {
+            background: none;
+            transform: none;
+            box-shadow: none;
             opacity: 1;
         }
     }
@@ -499,7 +507,7 @@ pre code.hljs {
         padding: 0.5em;
         flex-grow: 0;
         border-right: 1px solid var(--color-border);
-        background: rgba(0, 0, 0, 0.2);
+        background: rgba(255, 255, 255, 0.05);
     }
 
     & pre {
@@ -588,57 +596,193 @@ article {
     & input[type="text"],
     & input[type="number"],
     & textarea {
-        background: #222;
-        padding: 0.5em 0.7em;
-        border: 1px solid #333;
+        background: var(--color-surface);
+        padding: 0.55em 0.8em;
+        border: 1px solid var(--color-border);
         color: var(--color-fg);
-        border-radius: 0.25em;
+        border-radius: 0.45em;
+        font: inherit;
 
-        box-shadow: 0 0.15em 0 rgba(0, 0, 0, 0.5) inset;
+        transition:
+            border-color 0.15s ease,
+            box-shadow 0.15s ease,
+            background 0.15s ease;
+
+        &::placeholder {
+            color: var(--color-fg);
+            opacity: 0.35;
+        }
+
+        &:hover:not(:disabled):not(:focus) {
+            border-color: #777;
+        }
+
+        &:focus {
+            outline: none;
+            border-color: var(--color-primary);
+            box-shadow: 0 0 0 3px rgba(44, 114, 199, 0.3);
+        }
 
         &:invalid {
             border-color: #c00;
         }
 
+        &:invalid:focus {
+            box-shadow: 0 0 0 3px rgba(204, 0, 0, 0.3);
+        }
+
         &:disabled {
-            background: #333;
-            color: #666;
+            opacity: 0.55;
+            color: #888;
+            cursor: not-allowed;
+            box-shadow: none;
         }
     }
 
+    & textarea {
+        resize: vertical;
+        line-height: 1.4;
+    }
+
     & input[type="checkbox"] {
-        &.large {
-            width: 1.5em;
-            height: 1.5em;
+        appearance: none;
+        flex-shrink: 0;
+        width: 1.1em;
+        height: 1.1em;
+        margin: 0;
+        vertical-align: -0.15em;
+        background: var(--color-surface);
+        border: 1px solid var(--color-border);
+        border-radius: 0.3em;
+        cursor: pointer;
+
+        transition:
+            background 0.15s ease,
+            border-color 0.15s ease,
+            box-shadow 0.15s ease;
+
+        &:hover:not(:disabled) {
+            border-color: var(--color-primary);
         }
+
+        &:focus-visible {
+            outline: none;
+            border-color: var(--color-primary);
+            box-shadow: 0 0 0 3px rgba(44, 114, 199, 0.3);
+        }
+
+        &:checked {
+            background: var(--color-primary)
+                url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M3.5 8.5l3 3 6-6.5' fill='none' stroke='%23fff' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E")
+                center/75% no-repeat;
+            border-color: var(--color-primary);
+        }
+
+        &:disabled {
+            opacity: 0.55;
+            cursor: not-allowed;
+        }
+
+    }
+
+    & input[type="radio"] {
+        appearance: none;
+        flex-shrink: 0;
+        width: 1.1em;
+        height: 1.1em;
+        margin: 0;
+        vertical-align: -0.15em;
+        background: var(--color-surface)
+            url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Ccircle cx='8' cy='8' r='3.5' fill='%23fff'/%3E%3C/svg%3E")
+            center/0% no-repeat;
+        border: 1px solid var(--color-border);
+        border-radius: 50%;
+        cursor: pointer;
+
+        transition:
+            background 0.15s ease,
+            border-color 0.15s ease,
+            box-shadow 0.15s ease;
+
+        &:hover:not(:disabled) {
+            border-color: var(--color-primary);
+        }
+
+        &:focus-visible {
+            outline: none;
+            border-color: var(--color-primary);
+            box-shadow: 0 0 0 3px rgba(44, 114, 199, 0.3);
+        }
+
+        &:checked {
+            background-color: var(--color-primary);
+            background-size: 60%;
+            border-color: var(--color-primary);
+        }
+
+        &:disabled {
+            opacity: 0.55;
+            cursor: not-allowed;
+        }
+
     }
 
     & button,
     & select {
-        padding: 0.3em 0.7em;
+        padding: 0.4em 0.8em;
         border: 1px solid var(--color-border);
-        border-radius: 0.3em;
-        background: var(--color-bg);
+        border-radius: 0.45em;
+        background: var(--color-surface);
         color: var(--color-fg);
         cursor: pointer;
+        font: inherit;
 
-        box-shadow: 0 -0.15em 0 rgba(0, 0, 0, 0.5) inset;
+        box-shadow: 0 1px 2px rgba(0, 0, 0, 0.4);
+
+        transition:
+            background 0.15s ease,
+            border-color 0.15s ease,
+            transform 0.1s ease,
+            box-shadow 0.15s ease;
     }
 
-    & button:hover,
-    & select:hover {
-        background: #333;
+    & select {
+        appearance: none;
+        padding-right: 2em;
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M4 6l4 4 4-4' fill='none' stroke='%23999' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+        background-repeat: no-repeat;
+        background-position: right 0.6em center;
+        background-size: 1em;
+    }
+
+    & button:hover:not(:disabled),
+    & select:hover:not(:disabled) {
+        background-color: var(--color-surface-hover);
+        border-color: #777;
+        transform: translateY(-1px);
+        box-shadow: 0 3px 6px rgba(0, 0, 0, 0.4);
     }
 
     & button:active:not(:disabled),
     & select:active:not(:disabled) {
-        background: var(--color-bg);
-        box-shadow: 0 0.15em 0 rgba(0, 0, 0, 0.5) inset;
+        background-color: var(--color-surface);
+        transform: translateY(0);
+        box-shadow: 0 1px 2px rgba(0, 0, 0, 0.4);
+    }
+
+    & button:focus-visible,
+    & select:focus-visible {
+        outline: none;
+        border-color: var(--color-primary);
+        box-shadow: 0 0 0 3px rgba(44, 114, 199, 0.3);
     }
 
     & button:disabled,
     & select:disabled {
-        background: #333;
+        background-color: var(--color-surface);
         color: #666;
+        opacity: 0.55;
+        cursor: not-allowed;
+        box-shadow: none;
     }
 }
