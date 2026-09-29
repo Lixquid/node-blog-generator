@@ -74,3 +74,54 @@ test("invalid type option is ignored", () => {
     const html = render("```ts type=banana\ncode\n```\n");
     assert.doesNotMatch(html, /codeblock-(?:doesntcompile|errors|incorrect|badpractice|dangerous|correct)/);
 });
+
+
+test("htmldemo option renders a split textarea + iframe container", () => {
+    const html = render("```html htmldemo\n<p>Hello</p>\n```\n");
+    assert.match(html, /class="codeblock codeblock-htmldemo"/);
+    assert.match(html, /<div class="htmldemo-split">/);
+    assert.match(
+        html,
+        /<textarea class="htmldemo-textarea" spellcheck="false" aria-label="HTML source code" data-original="&lt;p&gt;Hello&lt;\/p&gt;">&lt;p&gt;Hello&lt;\/p&gt;<\/textarea>/,
+    );
+    assert.match(
+        html,
+        /<iframe class="htmldemo-frame" title="HTML demo preview" sandbox="allow-scripts allow-forms allow-modals allow-popups" srcdoc="/,
+    );
+    assert.doesNotMatch(html, /<code/);
+});
+
+test("htmldemo iframe srcdoc contains the stylesheets and the raw code", () => {
+    const html = render("```html htmldemo\n<p>Hello</p>\n```\n");
+    assert.match(
+        html,
+        /srcdoc="&lt;!DOCTYPE html&gt;&lt;html&gt;&lt;head&gt;&lt;meta charset=&quot;utf-8&quot; \/&gt;&lt;link rel=&quot;stylesheet&quot; href=&quot;\/assets\/modern-normalize.css&quot; \/&gt;&lt;link rel=&quot;stylesheet&quot; href=&quot;\/assets\/index.css&quot; \/&gt;&lt;\/head&gt;&lt;body class=&quot;htmldemo-body&quot;&gt;&lt;article&gt;&lt;p&gt;Hello&lt;\/p&gt;&lt;\/article&gt;&lt;\/body&gt;&lt;\/html&gt;"/,
+    );
+});
+
+test("htmldemo escapes HTML inside the textarea and srcdoc", () => {
+    const html = render('```html htmldemo\n<img src="a&b">\n```\n');
+    assert.match(
+        html,
+        /<textarea class="htmldemo-textarea" spellcheck="false" aria-label="HTML source code" data-original="&lt;img src=&quot;a&amp;b&quot;&gt;">&lt;img src=&quot;a&amp;b&quot;&gt;<\/textarea>/,
+    );
+});
+
+test("htmldemo=small adds the htmldemo-small class to the split container", () => {
+    const html = render("```html htmldemo=small\n<p>Hello</p>\n```\n");
+    assert.match(html, /<div class="htmldemo-split htmldemo-small">/);
+});
+
+test("plain htmldemo does not add the htmldemo-small class", () => {
+    const html = render("```html htmldemo\n<p>Hello</p>\n```\n");
+    assert.match(html, /<div class="htmldemo-split">/);
+    assert.doesNotMatch(html, /htmldemo-small/);
+});
+
+test("htmldemo supports the title option", () => {
+    const html = render('```html htmldemo title="My Demo"\n<p>Hello</p>\n```\n');
+    assert.match(
+        html,
+        /<span class="codeblock-header-title">My Demo<\/span>/,
+    );
+});

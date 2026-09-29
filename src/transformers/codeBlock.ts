@@ -34,6 +34,61 @@ export interface CodeBlockTransformerOptions {
 }
 
 /**
+ * Escapes a string for safe inclusion in HTML text content or inside a
+ * double-quoted attribute value.
+ */
+export function escapeHtml(text: string): string {
+    return text
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;");
+}
+
+/**
+ * Builds the full HTML document rendered inside an `htmldemo` iframe.
+ *
+ * The site stylesheets are included so that demos render with the same look
+ * as the surrounding page. Since `srcdoc` documents inherit the base URL of
+ * their parent, the absolute `/assets/...` paths resolve correctly.
+ *
+ * The code is wrapped in an `<article>` because most content styling in the
+ * site stylesheet (buttons, form controls, headings, ...) is scoped under
+ * `article`, matching how this content appears inside a blog post. The body
+ * gets the `htmldemo-body` class so it can be padded independently of the
+ * main page (see `.htmldemo-body` in `src/assets/index.css`).
+ *
+ * NOTE: this template is duplicated in `src/assets/index.ts` for the
+ * client-side live updates; keep the two in sync.
+ */
+export function htmlDemoDocument(code: string): string {
+    return `<!DOCTYPE html><html><head><meta charset="utf-8" /><link rel="stylesheet" href="/assets/modern-normalize.css" /><link rel="stylesheet" href="/assets/index.css" /></head><body class="htmldemo-body"><article>${code}</article></body></html>`;
+}
+
+/** Supported value variants for the `htmldemo` code block option. */
+export type HtmlDemoSize = "default" | "small";
+
+/**
+ * Renders a code block with the `htmldemo` option as an editable demo.
+ */
+export function renderHtmlDemo(
+    opts: Record<string, string | boolean>,
+    text: string,
+    size: HtmlDemoSize = "default",
+): string {
+    const header = typeof opts.title === "string" ? opts.title : undefined;
+    const headerHtml = header !== undefined
+        ? `<div class="codeblock-header"><span class="codeblock-header-title">${header}</span></div>`
+        : "";
+    const sizeClass = size === "small" ? " htmldemo-small" : "";
+    // `data-original` holds the pristine block contents so the client-side
+    // script can reset the textarea on page load (browsers may restore the
+    // user's last-edited value on reload, which would desync it from the
+    // server-rendered iframe srcdoc).
+    return `<div class="codeblock codeblock-htmldemo">${headerHtml}<div class="htmldemo-split${sizeClass}"><textarea class="htmldemo-textarea" spellcheck="false" aria-label="HTML source code" data-original="${escapeHtml(text)}">${escapeHtml(text)}</textarea><iframe class="htmldemo-frame" title="HTML demo preview" sandbox="allow-scripts allow-forms allow-modals allow-popups" srcdoc="${escapeHtml(htmlDemoDocument(text))}"></iframe></div></div>`;
+}
+
+/**
  * Creates the transformer which enhances fenced code blocks.
  *
  * Supported info-string arguments (after the language):
@@ -45,6 +100,14 @@ export interface CodeBlockTransformerOptions {
  * - `copy` - shows a "Copy" button in the header which copies the code block
  *   contents to the clipboard (see `src/assets/index.ts` for the client-side
  *   behaviour).
+ * - `htmldemo` - turns the block into an interactive HTML demo: a vertically
+ *   split container with an editable textarea (left, containing the raw HTML)
+ *   and an iframe (right, rendering the code) at the default height of `20em`.
+ *   The iframe is server-rendered with the initial code so that the demo is
+ *   visible even without JavaScript; see `src/assets/index.ts` for the
+ *   live-update behaviour.
+ * - `htmldemo=small` - like `htmldemo`, but the split container is only `8em`
+ *   tall (see `.htmldemo-small` in `src/assets/index.css`).
  *
  * Blocks with no special options and an unknown language are left for
  * marked's default renderer.
@@ -65,6 +128,14 @@ export function createCodeBlockTransformer(
         let linenumber: number | undefined;
         let header: string | undefined;
         let copy = false;
+
+        if (opts.htmldemo === true || opts.htmldemo === "small") {
+            return renderHtmlDemo(
+                opts,
+                token.text,
+                opts.htmldemo === "small" ? "small" : "default",
+            );
+        }
 
         if (language && hljs.getLanguage(language)) {
             text = hljs.highlight(text, { language }).value;

@@ -548,6 +548,82 @@ pre code.hljs {
     }
 }
 
+.htmldemo-split {
+    display: flex;
+    flex-direction: row;
+    align-items: stretch;
+    height: 20em;
+
+    @media (max-width: 600px) {
+        flex-direction: column;
+        height: auto;
+
+        & .htmldemo-textarea {
+            height: 12em;
+            flex: 0 0 auto;
+            border-right: none;
+            border-bottom: 1px solid var(--color-border);
+        }
+
+        & .htmldemo-frame {
+            height: 15em;
+            flex: 0 0 auto;
+        }
+    }
+
+    /** Compact variant, selected with `htmldemo=small`. */
+    &.htmldemo-small {
+        height: 8em;
+
+        @media (max-width: 600px) {
+            /* Needed to override the `height: 8em` above; without it the
+               fixed height would overflow the mobile column layout (the
+               children are `flex: 0 0 auto`) and cover the bottom border. */
+            height: auto;
+
+            & .htmldemo-textarea {
+                height: 5em;
+            }
+
+            & .htmldemo-frame {
+                height: 6em;
+            }
+        }
+    }
+}
+
+.htmldemo-textarea {
+    flex: 1 1 50%;
+    min-width: 0;
+    margin: 0;
+    padding: 0.5em;
+    border: none;
+    border-right: 1px solid var(--color-border);
+    border-radius: 0;
+    background: none;
+    color: var(--color-fg);
+    font-family: "Source Code Pro", monospace;
+    font-size: 0.8em;
+    line-height: 1.4;
+    overflow: auto;
+    resize: none;
+    outline: none;
+    white-space: pre;
+    tab-size: 4;
+}
+
+.htmldemo-frame {
+    flex: 1 1 50%;
+    min-width: 0;
+    border: none;
+    background: var(--color-bg);
+}
+
+/** Applied to the `<body>` of an `htmldemo` iframe document only. */
+.htmldemo-body {
+    padding: 0.75em;
+}
+
 .alert-note {
     border-color: rgb(0, 87, 174);
     background: rgba(0, 87, 174, 0.05);

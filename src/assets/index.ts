@@ -2,6 +2,21 @@ function isHTMLElement(el: Element): el is HTMLElement {
     return el instanceof HTMLElement;
 }
 
+/**
+ * Builds the full HTML document rendered inside an `htmldemo` iframe.
+ *
+ * This is the client-side counterpart of `htmlDemoDocument` in
+ * `src/transformers/codeBlock.ts`; keep the two in sync.
+ *
+ * The code is wrapped in an `<article>` so that form-control styling (scoped
+ * under `article` in the stylesheet) applies inside the iframe as well. The
+ * body gets the `htmldemo-body` class for iframe-only padding; keep in sync
+ * with `htmlDemoDocument` in `src/transformers/codeBlock.ts`.
+ */
+function htmlDemoDocument(code: string): string {
+    return `<!DOCTYPE html><html><head><meta charset="utf-8" /><link rel="stylesheet" href="/assets/modern-normalize.css" /><link rel="stylesheet" href="/assets/index.css" /></head><body class="htmldemo-body"><article>${code}</article></body></html>`;
+}
+
 document.addEventListener("DOMContentLoaded", () => {
     function relativeTime(days: number): string {
         if (days < 1) {
@@ -44,15 +59,44 @@ document.addEventListener("DOMContentLoaded", () => {
         e.style.setProperty("--color-primary", `hsl(${hue}, 30%, 74%)`);
     }
 
+    // htmldemo code blocks: re-render the iframe whenever the textarea is
+    // edited. Without JavaScript, the server-rendered srcdoc stays visible.
+    for (const block of Array.from(
+        document.querySelectorAll(".codeblock-htmldemo"),
+    )) {
+        const textarea = block.querySelector(".htmldemo-textarea");
+        const frame = block.querySelector(".htmldemo-frame");
+        if (
+            !(textarea instanceof HTMLTextAreaElement) ||
+            !(frame instanceof HTMLIFrameElement)
+        ) {
+            continue;
+        }
+
+        // Browsers may restore the user's last-edited textarea value on
+        // reload (form state restoration / session history), which would
+        // desync the textarea from the server-rendered iframe srcdoc. Reset
+        // it to the page's original contents, which the transformer stored
+        // in the `data-original` attribute (attribute values are unescaped
+        // automatically when read via getAttribute).
+        const original = textarea.getAttribute("data-original") ?? textarea.value;
+        textarea.value = original;
+        frame.srcdoc = htmlDemoDocument(original);
+
+        textarea.addEventListener("input", () => {
+            frame.srcdoc = htmlDemoDocument(textarea.value);
+        });
+    }
+
     for (const btn of Array.from(
         document.querySelectorAll(".codeblock-copy"),
     )) {
         if (!isHTMLElement(btn)) continue;
 
         btn.addEventListener("click", () => {
-            const code = btn.closest(".codeblock")?.querySelector("code");
             const text = btn.querySelector(".codeblock-copy-text");
-            if (!code) return;
+            const code = btn.closest(".codeblock")?.querySelector("code");
+            if (!code || !(text instanceof HTMLElement)) return;
 
             navigator.clipboard
                 .writeText(code.textContent ?? "")

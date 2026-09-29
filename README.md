@@ -39,7 +39,7 @@ stream is passed through a pipeline of modular **transformers**
   `**Tip:**`, or `**Warning:**` into styled alert blocks.
 - **codeBlock** adds highlight.js highlighting, headers (`title=Name`), line
   numbers (`linenumber`, `linenumber=20`), copy-to-clipboard buttons
-  (`copy`), and semantic styling
+  (`copy`), interactive HTML demos (`htmldemo`), and semantic styling
   (`type=doesntcompile|errors|incorrect|badpractice|dangerous|correct`) to
   fenced code blocks.
 
@@ -64,6 +64,28 @@ get a header row to host the button. The client-side behaviour lives in
 `src/assets/index.ts`: clicking the button copies the code block contents to
 the clipboard via `navigator.clipboard` and shows "Copied!" feedback for two
 seconds.
+
+### Code block HTML demos
+
+Fenced code blocks support an `htmldemo` attribute:
+
+````
+```html htmldemo
+<p>Hello, world!</p>
+```
+````
+
+The block is rendered as a vertically split container: an editable textarea
+on the left containing the raw HTML, and an iframe on the right rendering
+it. The iframe document includes the site stylesheets, so demos render with
+the same look as the rest of the page.
+
+The iframe is server-rendered with the initial code via `srcdoc`, so the
+demo is visible even without JavaScript. The client-side behaviour lives in
+`src/assets/index.ts`: editing the textarea re-renders the iframe live.
+The document template is shared with the server-side transformer
+(`htmlDemoDocument` in `src/transformers/codeBlock.ts`); keep the two in
+sync.
 
 ## Asset resolution
 
