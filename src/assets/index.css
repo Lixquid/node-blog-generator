@@ -271,7 +271,9 @@ main {
 }
 
 header {
-    margin-bottom: 7em;
+    &.post-header {
+        margin-bottom: 7em;
+    }
 
     & h1 {
         margin: 0;
