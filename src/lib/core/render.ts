@@ -97,6 +97,14 @@ export async function loadTemplates(): Promise<Templates> {
     );
     Handlebars.registerPartial("header", header);
 
+    const footer = Handlebars.compile(
+        await readFile(
+            join(__dirname, "..", "..", "templates", "partials", "footer.hbs"),
+            "utf8",
+        ),
+    );
+    Handlebars.registerPartial("footer", footer);
+
     const templateDir = join(__dirname, "..", "..", "templates");
     const index = Handlebars.compile<IndexPageContext>(
         await readFile(join(templateDir, "index.hbs"), "utf8"),
