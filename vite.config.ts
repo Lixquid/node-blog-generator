@@ -50,6 +50,40 @@ function directoryRedirectPlugin(): PluginOption {
     };
 }
 
+/**
+ * In dev mode, regenerating `out/` briefly removes or rewrites the files the
+ * browser is about to request. If the browser reloads mid-generation it can
+ * 404, so delay the full-reload Vite sends over the HMR websocket by half a
+ * second to let the generator finish first. Repeated changes reset the timer
+ * so only the last reload fires.
+ */
+function delayedFullReloadPlugin(): PluginOption {
+    const delayMs = 500;
+    return {
+        name: "delayed-full-reload",
+        apply: "serve",
+        configureServer(server) {
+            const originalSend = server.ws.send.bind(server.ws) as (
+                ...args: unknown[]
+            ) => void;
+            let timer: NodeJS.Timeout | undefined;
+            server.ws.send = ((...args: unknown[]) => {
+                const payload = typeof args[0] === "string" ? args[1] : args[0];
+                if (
+                    payload &&
+                    typeof payload === "object" &&
+                    (payload as { type?: string }).type === "full-reload"
+                ) {
+                    clearTimeout(timer);
+                    timer = setTimeout(() => originalSend(...args), delayMs);
+                    return;
+                }
+                return originalSend(...args);
+            }) as typeof server.ws.send;
+        },
+    };
+}
+
 // Directory containing this config file: the project root.
 const projectRoot: string = import.meta.dirname;
 
@@ -89,7 +123,7 @@ const entryFiles = recursiveSearch(join(projectRoot, "out"));
 
 export default defineConfig({
     root: "out",
-    plugins: [directoryRedirectPlugin(), rssFilePlugin()],
+    plugins: [directoryRedirectPlugin(), delayedFullReloadPlugin(), rssFilePlugin()],
     build: {
         outDir: "dist",
         rollupOptions: {
