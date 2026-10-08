@@ -13,5 +13,6 @@ export {
     getPosts,
 } from "./generator.ts";
 export { parsePost } from "./parse.ts";
+export { getMicroblogPosts, parseMicroblog } from "./microblog.ts";
 export { renderRss, rssPath, siteUrl } from "./rss.ts";
 export * from "./types.ts";

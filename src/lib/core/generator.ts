@@ -19,6 +19,7 @@ import {
 } from "./render.ts";
 import { renderRss, siteUrl, authorUrl, type RssPost } from "./rss.ts";
 import { getTagMetadata, loadTagCatalog } from "./tags.ts";
+import { getMicroblogPosts } from "./microblog.ts";
 import type { ISODate, PostData, Slug } from "./types.ts";
 
 /** The directory containing all blog post folders. */
@@ -306,6 +307,19 @@ export class SiteGenerator {
         await writeFile(
             join(outDir, "index.html"),
             templates.index(indexContext),
+        );
+
+        // Build the microblog page.
+        const microblogPosts = await getMicroblogPosts();
+        await mkdir(join(outDir, "microblog"), { recursive: true });
+        await writeFile(
+            join(outDir, "microblog", "index.html"),
+            templates.microblog({
+                posts: microblogPosts.map((p) => ({
+                    date: p.date,
+                    post: this.marked.parse(p.post, { async: false }),
+                })),
+            }),
         );
 
         // Build the RSS feed from the visible posts.

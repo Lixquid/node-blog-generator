@@ -394,6 +394,33 @@ footer {
     }
 }
 
+.microblog-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1em;
+    margin-top: 1em;
+}
+
+.microblog-post {
+    /* Filled block with no border. */
+    background: #000;
+    border-radius: 0.2em;
+    padding: 1.5em 1em;
+    margin: 0;
+
+    & > *:last-child {
+        margin-bottom: 0;
+    }
+
+    & > .microblog-date {
+        margin-bottom: 0.5em;
+        text-align: left;
+        color: var(--color-secondary);
+        font-family: "Red Hat Display", sans-serif;
+        font-weight: 900;
+    }
+}
+
 .index-columns {
     display: flex;
     flex-direction: row;

@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+    {{!
+        Arguments:
+            posts: {
+                date: string (ISO 8601)
+                post: string (rendered HTML)
+            }[] (in reverse chronological order)
+    }}
+    <head>
+        <meta charset="UTF-8" />
+        <title>Microblog - Lixquid</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <link rel="icon" href="/assets/favicon.png" />
+        <meta name="title" content="Microblog - Lixquid" />
+        <meta name="description" content="Lixquid's Microblog" />
+        <link rel="stylesheet" href="/assets/modern-normalize.css" />
+        <link rel="stylesheet" href="/assets/index.css" />
+        <link
+            rel="alternate"
+            type="application/rss+xml"
+            title="RSS"
+            href="/rss.xml"
+        />
+        <script src="/assets/index.ts" defer type="module"></script>
+    </head>
+    <body>
+        <main>
+            {{> header}}
+            <header>
+                <h1>Microblog</h1>
+            </header>
+            <div class="microblog-list">
+                {{#each posts}}
+                <article class="microblog-post">
+                    <div class="microblog-date">
+                        <time class="relative-date" datetime="{{ date }}">{{ date }}</time>
+                    </div>
+                    {{{ post }}}
+                </article>
+                {{/each}}
+            </div>
+        </main>
+    </body>
+</html>

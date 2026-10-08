@@ -66,12 +66,22 @@ export interface TagPageContext {
     posts: PostListItem[];
 }
 
+/** Context for the microblog page template. */
+export interface MicroblogPageContext {
+    posts: {
+        date: string;
+        /** The rendered HTML of the post. */
+        post: string;
+    }[];
+}
+
 /** All compiled templates, loaded once at startup. */
 export interface Templates {
     index: Handlebars.TemplateDelegate<IndexPageContext>;
     post: Handlebars.TemplateDelegate<PostPageContext>;
     tag: Handlebars.TemplateDelegate<TagPageContext>;
     tagIndex: Handlebars.TemplateDelegate<TagListPageContext>;
+    microblog: Handlebars.TemplateDelegate<MicroblogPageContext>;
 }
 
 /**
@@ -100,6 +110,9 @@ export async function loadTemplates(): Promise<Templates> {
     const tagIndex = Handlebars.compile<TagListPageContext>(
         await readFile(join(templateDir, "tagIndex.hbs"), "utf8"),
     );
+    const microblog = Handlebars.compile<MicroblogPageContext>(
+        await readFile(join(templateDir, "microblog.hbs"), "utf8"),
+    );
 
-    return { index, post, tag, tagIndex };
+    return { index, post, tag, tagIndex, microblog };
 }
